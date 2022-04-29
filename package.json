@@ -10,7 +10,8 @@
     "build": "PUBLIC_URL=/memlog npx react-scripts build",
     "lint": "prettier --ignore-path .gitignore --write . && eslint --fix --ext ts,tsx ./src",
     "start": "npx react-scripts start",
-    "test": "npx react-scripts test"
+    "test": "npx react-scripts test",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -39,9 +40,21 @@
     "workbox-streams": "^5.1.4"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.1",
     "prettier": "^2.6.2"
+  },
+  "browserslist": {
+    "production": [
+      "last 1 chrome version"
+    ],
+    "development": [
+      "last 1 chrome version"
+    ]
   },
   "prettier": {
     "printWidth": 200,
@@ -73,12 +86,17 @@
       ]
     }
   },
-  "browserslist": {
-    "production": [
-      "last 1 chrome version"
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,html,css,scss,json,yml,yaml,md}": [
+      "prettier --write"
     ],
-    "development": [
-      "last 1 chrome version"
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --cache"
     ]
   }
 }
