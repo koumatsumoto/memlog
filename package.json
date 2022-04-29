@@ -7,10 +7,10 @@
     "npm": ">= 8.6.0"
   },
   "scripts": {
-    "start": "npx react-scripts start",
     "build": "PUBLIC_URL=/memlog npx react-scripts build",
-    "test": "npx react-scripts test",
-    "eject": "npx react-scripts eject"
+    "lint": "prettier --ignore-path .gitignore --write . && eslint --fix --ext ts,tsx ./src",
+    "start": "npx react-scripts start",
+    "test": "npx react-scripts test"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -38,11 +38,40 @@
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
   },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "prettier": "^2.6.2"
+  },
+  "prettier": {
+    "printWidth": 200,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
-    ]
+      "react-app/jest",
+      "plugin:import/typescript",
+      "prettier"
+    ],
+    "rules": {
+      "import/order": [
+        "error",
+        {
+          "alphabetize": {
+            "order": "asc"
+          },
+          "groups": [
+            "builtin",
+            "external",
+            "parent",
+            "sibling",
+            "index"
+          ]
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [

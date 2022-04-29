@@ -3,7 +3,7 @@ const isLocalhost = Boolean(
     // [::1] is the IPv6 localhost address.
     window.location.hostname === '[::1]' ||
     // 127.0.0.0/8 are considered localhost for IPv4.
-    window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/)
+    window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/),
 );
 
 type Config = {
@@ -11,20 +11,20 @@ type Config = {
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
-const loggedMessages: string[] = []
+const loggedMessages: string[] = [];
 const log = (message: string, ...args: any[]) => {
   switch (args.length) {
     case 0: {
       loggedMessages.push(`[dev] ${message}`);
-      break
+      break;
     }
     case 1: {
       loggedMessages.push(`[dev] ${message}: ${JSON.stringify(args.at(0))}`);
-      break
+      break;
     }
     default: {
       loggedMessages.push(`[dev] ${message}: ${JSON.stringify(args)}`);
-      break
+      break;
     }
   }
 
@@ -32,7 +32,7 @@ const log = (message: string, ...args: any[]) => {
   if (e) {
     e.innerText = loggedMessages.join('\n');
   }
-}
+};
 
 log('log works', { isLocalhost });
 
@@ -41,7 +41,9 @@ export function register(config?: Config) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
-      log('Our service worker won\'t work if PUBLIC_URL is on a different origin from what our page is served on. This might happen if a CDN is used to serve assets; see https://github.com/facebook/create-react-app/issues/2374');
+      log(
+        "Our service worker won't work if PUBLIC_URL is on a different origin from what our page is served on. This might happen if a CDN is used to serve assets; see https://github.com/facebook/create-react-app/issues/2374",
+      );
       return;
     }
 
@@ -114,10 +116,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
     .then((response) => {
       // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get('content-type');
-      if (
-        response.status === 404 ||
-        (contentType != null && contentType.indexOf('javascript') === -1)
-      ) {
+      if (response.status === 404 || (contentType != null && contentType.indexOf('javascript') === -1)) {
         // No service worker found. Probably a different app. Reload the page.
         navigator.serviceWorker.ready.then((registration) => {
           registration.unregister().then(() => {
