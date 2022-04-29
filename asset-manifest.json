@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/memlog/static/css/main.f855e6bc.css",
-    "main.js": "/memlog/static/js/main.7bc98b85.js",
+    "main.js": "/memlog/static/js/main.b5cefabb.js",
     "static/js/377.81b25707.chunk.js": "/memlog/static/js/377.81b25707.chunk.js",
     "service-worker.js": "/memlog/service-worker.js",
     "static/media/logo.svg": "/memlog/static/media/logo.103b5fa18196d5665a7e12318285c916.svg",
     "index.html": "/memlog/index.html",
     "main.f855e6bc.css.map": "/memlog/static/css/main.f855e6bc.css.map",
-    "main.7bc98b85.js.map": "/memlog/static/js/main.7bc98b85.js.map",
+    "main.b5cefabb.js.map": "/memlog/static/js/main.b5cefabb.js.map",
     "377.81b25707.chunk.js.map": "/memlog/static/js/377.81b25707.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f855e6bc.css",
-    "static/js/main.7bc98b85.js"
+    "static/js/main.b5cefabb.js"
   ]
 }
