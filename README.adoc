@@ -1,0 +1,7 @@
+= memlog
+
+2022-04-29: Web Share Target API を試すために作成
+
+== 開発環境
+
+https://koumatsumoto.github.io/memlog/
