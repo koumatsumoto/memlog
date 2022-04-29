@@ -4,12 +4,13 @@ import { Waveform } from '@uiball/loaders';
 import React, { useEffect, useState } from 'react';
 import { FullScreenContainer } from './components/containers';
 import { AppHeader } from './components/headers';
+import { useLogin } from './hooks';
 
 const LoginButton = () => {
-  const { loginWithRedirect } = useAuth0();
+  const login = useLogin();
 
   return (
-    <Button colorScheme="green" onClick={() => loginWithRedirect()}>
+    <Button colorScheme="green" onClick={login}>
       Log In
     </Button>
   );
