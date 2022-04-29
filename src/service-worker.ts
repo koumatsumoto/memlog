@@ -70,11 +70,11 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// const sendLog = (message: string, ...data: unknown[]) => {
-//   self.clients.matchAll().then((clients) => {
-//     clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
-//   });
-// };
+const sendLog = (message: string, ...data: unknown[]) => {
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
+  });
+};
 //
 // setInterval(() => {
 //   self.clients.matchAll().then((clients) => {
@@ -87,17 +87,15 @@ self.addEventListener('message', (event) => {
 // });
 
 self.addEventListener('fetch', (event) => {
-  // sendLog('onfetch', event.request.method, event.request.url);
-
   const url = new URL(event.request.url);
+  sendLog('onfetch', event.request.method, event.request.url, url);
+
   // If this is an incoming POST request for the
   // registered "action" URL, respond to it.
-  if (event.request.method === 'POST' && url.pathname === '/bookmark') {
+  if (event.request.method === 'GET' && url.pathname.includes('/memlog/bookmark')) {
     event.respondWith(
       (async () => {
-        // const formdata = await event.request.formData();
-        // sendLog('formdata', formdata.entries());
-        return Response.redirect(url, 303);
+        return Response.redirect('/memlog/', 303);
       })(),
     );
   }
