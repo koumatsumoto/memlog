@@ -5,27 +5,14 @@ type Config = {
   onUpdate?: (registration: ServiceWorkerRegistration) => void;
 };
 
-const loggedMessages: string[] = [];
+const logged: string[] = [];
 const log = (message: string, ...args: any[]) => {
-  switch (args.length) {
-    case 0: {
-      loggedMessages.push(`[dev] ${message}`);
-      break;
-    }
-    case 1: {
-      loggedMessages.push(`[dev] ${message}: ${JSON.stringify(args.at(0))}`);
-      break;
-    }
-    default: {
-      loggedMessages.push(`[dev] ${message}: ${JSON.stringify(args)}`);
-      break;
-    }
-  }
-
-  console.log(loggedMessages.at(-1));
+  const newMessage = args.length === 0 ? `[dev] ${message}` : args.length === 1 ? `[dev] ${message}: ${JSON.stringify(args.at(0))}` : `[dev] ${message}: ${JSON.stringify(args)}`;
+  logged.push(newMessage);
+  console.log(newMessage);
   const e = document.querySelector<HTMLPreElement>('#devlog');
   if (e) {
-    e.innerText = loggedMessages.join('\n');
+    e.innerText = logged.join('\n');
   }
 };
 
