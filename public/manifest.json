@@ -24,7 +24,7 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "share_target": {
-    "action": "/bookmark",
+    "action": "/memlog/bookmark",
     "method": "GET",
     "params": {
       "title": "title",
