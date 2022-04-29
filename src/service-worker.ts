@@ -17,13 +17,18 @@ self.addEventListener('message', (event) => {
   }
 });
 
+const sendLog = (message: string, ...data: unknown[]) => {
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
+  });
+};
+
 setInterval(() => {
   self.clients.matchAll().then((clients) => {
-    clients.forEach((client) => {
-      client.postMessage({
-        type: 'ping',
-        data: Date.now(),
-      });
-    });
+    clients.forEach((client) => client.postMessage({ type: 'ping', data: Date.now() }));
   });
 }, 20000);
+
+setImmediate(() => {
+  sendLog('worker setup');
+});
