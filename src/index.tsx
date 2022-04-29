@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { theme } from './components/theme';
 import { ENV } from './environments';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 

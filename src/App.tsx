@@ -2,7 +2,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Avatar, Button, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
 import React, { useEffect, useState } from 'react';
-import './App.css';
 import { FullScreenContainer } from './components/containers';
 import { AppHeader } from './components/headers';
 
