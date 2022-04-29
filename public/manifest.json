@@ -5,9 +5,24 @@
   "start_url": "/memlog/",
   "icons": [
     {
-      "src": "images/favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "images/icon-16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "images/icon-24.png",
+      "type": "image/png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "images/icon-32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "images/icon-64.png",
+      "type": "image/png",
+      "sizes": "64x64"
     },
     {
       "src": "images/icon-192.png",
