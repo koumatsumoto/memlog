@@ -92,11 +92,11 @@ self.addEventListener('fetch', (event) => {
 
   // If this is an incoming POST request for the
   // registered "action" URL, respond to it.
-  if (event.request.method === 'GET' && url.pathname === '/memlog/') {
-    event.respondWith(
-      (async () => {
-        return Response.redirect('/memlog/', 303);
-      })(),
-    );
-  }
+  // if (event.request.method === 'GET' && url.pathname === '/memlog/') {
+  //   event.respondWith(
+  //     (async () => {
+  //       return Response.redirect('/memlog/', 303);
+  //     })(),
+  //   );
+  // }
 });
