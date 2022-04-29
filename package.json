@@ -2,6 +2,16 @@
   "name": "memlog",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">= 18.0.0",
+    "npm": ">= 8.6.0"
+  },
+  "scripts": {
+    "start": "npx react-scripts start",
+    "build": "PUBLIC_URL=/memlog npx react-scripts build",
+    "test": "npx react-scripts test",
+    "eject": "npx react-scripts eject"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^11.2.7",
@@ -27,12 +37,6 @@
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
-  },
-  "scripts": {
-    "start": "npx react-scripts start",
-    "build": "PUBLIC_URL=/memlog npx react-scripts build",
-    "test": "npx react-scripts test",
-    "eject": "npx react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
