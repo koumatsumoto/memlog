@@ -70,11 +70,11 @@ self.addEventListener('message', (event) => {
   }
 });
 
-const sendLog = (message: string, ...data: unknown[]) => {
-  self.clients.matchAll().then((clients) => {
-    clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
-  });
-};
+// const sendLog = (message: string, ...data: unknown[]) => {
+//   self.clients.matchAll().then((clients) => {
+//     clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
+//   });
+// };
 
 // setInterval(() => {
 //   self.clients.matchAll().then((clients) => {
@@ -85,18 +85,3 @@ const sendLog = (message: string, ...data: unknown[]) => {
 // setImmediate(() => {
 //   sendLog('worker setup');
 // });
-
-self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-  sendLog('onfetch', event.request.method, event.request.url, url);
-
-  // If this is an incoming POST request for the
-  // registered "action" URL, respond to it.
-  // if (event.request.method === 'GET' && url.pathname === '/memlog/') {
-  //   event.respondWith(
-  //     (async () => {
-  //       return Response.redirect('/memlog/', 303);
-  //     })(),
-  //   );
-  // }
-});
