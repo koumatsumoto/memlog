@@ -4,7 +4,7 @@ import { clientsClaim } from 'workbox-core';
 
 declare const self: ServiceWorkerGlobalScope & { __WB_MANIFEST: unknown };
 // keep self.__WB_MANIFEST somewhere in your file, as the Workbox compilation plugin checks for this value when generating a manifest of URLs to precache.
-// eslint-disable-next-line no-restricted-globals
+// eslint-disable-next-line
 const _ = self.__WB_MANIFEST;
 
 clientsClaim();
