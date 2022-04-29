@@ -1,6 +1,8 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "memlog",
+  "short_name": "memlog",
+  "scope": "/memlog/",
+  "start_url": "/memlog/",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,7 +20,6 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
