@@ -1,17 +1,24 @@
 import { useAuth0 } from '@auth0/auth0-react';
+import { Avatar, Button, Container, HStack, Text, VStack } from '@chakra-ui/react';
+import { Waveform } from '@uiball/loaders';
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { ENV } from './environments';
+import { FullScreenContainer } from './components/containers';
+import { AppHeader } from './components/headers';
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
-  return <button onClick={() => loginWithRedirect()}>Log In</button>;
+  return (
+    <Button colorScheme="green" onClick={() => loginWithRedirect()}>
+      Log In
+    </Button>
+  );
 };
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const [accessToken, setAccessToken] = useState('');
+  const [, setAccessToken] = useState('');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -19,40 +26,41 @@ const Profile = () => {
         .then((token) => setAccessToken(token))
         .catch(console.error);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return (
+      <VStack>
+        <Text>Loading</Text>
+        <Waveform color="white" />
+      </VStack>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <LoginButton />;
   }
 
   if (isAuthenticated && user) {
-    console.log('isAuthenticated', { user });
-
     return (
-      <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-      </div>
+      <HStack>
+        <Avatar name={user.name} src={user.picture} />
+        <Text>{user.name}</Text>
+      </HStack>
     );
   } else {
-    return <div>Not Logged In</div>;
+    throw new Error('user must exist if isAuthenticated');
   }
 };
 
 function App() {
   return (
-    <main className="App">
-      <header className="App-header">
-        <p>
-          memlog<small>@{ENV.version}</small>
-        </p>
-      </header>
-      <div>
-        <LoginButton />
+    <FullScreenContainer>
+      <AppHeader />
+      <Container centerContent padding={4}>
         <Profile />
-      </div>
-    </main>
+      </Container>
+    </FullScreenContainer>
   );
 }
 

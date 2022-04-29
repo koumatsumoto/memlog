@@ -1,9 +1,11 @@
 import { Auth0Provider } from '@auth0/auth0-react';
+import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './index.css';
+import { theme } from './components/theme';
 import { ENV } from './environments';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
@@ -16,7 +18,9 @@ const AUTH0_CONFIG = {
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider domain={AUTH0_CONFIG.domain} clientId={AUTH0_CONFIG.clientId} redirectUri={AUTH0_CONFIG.redirectUri}>
-      <App />
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root'),
