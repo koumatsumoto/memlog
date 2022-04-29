@@ -16,6 +16,12 @@ const log = (message: string, ...args: any[]) => {
   }
 };
 
+const subscribeLogsFromServiceWorker = () => {
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    log('service-worker message', event.data);
+  });
+};
+
 log('log works', ENV);
 
 export function register(config?: Config) {
@@ -63,6 +69,8 @@ function registerValidSW(swUrl: string, config?: Config) {
     .register(swUrl, { scope: '/memlog/' })
     .then((registration) => {
       log('service worker registered', getRegistrationStatus(registration));
+
+      subscribeLogsFromServiceWorker();
 
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;

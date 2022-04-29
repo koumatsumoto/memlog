@@ -17,4 +17,13 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Any other custom service worker logic can go here.
+setInterval(() => {
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => {
+      client.postMessage({
+        type: 'ping',
+        data: Date.now(),
+      });
+    });
+  });
+}, 20000);
