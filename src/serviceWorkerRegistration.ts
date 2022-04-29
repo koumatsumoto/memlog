@@ -133,12 +133,12 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
     });
 }
 
-export function unregister() {
-  navigator.serviceWorker.ready
-    .then((registration) => {
-      registration.unregister();
-    })
-    .catch((error) => {
-      console.error(error.message);
-    });
+export async function unregister() {
+  try {
+    const registration = await navigator.serviceWorker.ready;
+    const result = await registration.unregister();
+    log('service worker unregistered', { result });
+  } catch (e) {
+    log('failed to unregister serviceworker', e);
+  }
 }
