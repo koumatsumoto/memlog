@@ -61,10 +61,21 @@ export function register(config?: Config) {
   }
 }
 
+const getRegistrationStatus = (reg: ServiceWorkerRegistration) => {
+  return {
+    active: Boolean(reg.active),
+    installing: Boolean(reg.installing),
+    waiting: Boolean(reg.waiting),
+    scope: reg.scope,
+  };
+};
+
 function registerValidSW(swUrl: string, config?: Config) {
   navigator.serviceWorker
     .register(swUrl, { scope: '/memlog/' })
     .then((registration) => {
+      log('service worker registered', getRegistrationStatus(registration));
+
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -130,6 +141,7 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
 export async function unregister() {
   try {
     const registration = await navigator.serviceWorker.ready;
+    log('start service worker unregister', getRegistrationStatus(registration));
     const result = await registration.unregister();
     log('service worker unregistered', { result });
   } catch (e) {
