@@ -39,7 +39,7 @@
   "theme_color": "#000000",
   "background_color": "#ffffff",
   "share_target": {
-    "action": "/memlog/bookmark",
+    "action": "/memlog/",
     "params": {
       "text": "text",
       "title": "title",
