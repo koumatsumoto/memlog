@@ -32,3 +32,20 @@ setInterval(() => {
 setImmediate(() => {
   sendLog('worker setup');
 });
+
+self.addEventListener('fetch', (event) => {
+  sendLog('onfetch', event.request.method, event.request.url);
+
+  const url = new URL(event.request.url);
+  // If this is an incoming POST request for the
+  // registered "action" URL, respond to it.
+  if (event.request.method === 'POST' && url.pathname === '/bookmark') {
+    event.respondWith(
+      (async () => {
+        const formdata = await event.request.formData();
+        sendLog('formdata', formdata.entries());
+        return Response.redirect(url, 303);
+      })(),
+    );
+  }
+});
