@@ -1,10 +1,8 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import { Avatar, Button, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
-import React, { useEffect, useState } from 'react';
 import { FullScreenContainer } from './components/containers';
 import { AppHeader } from './components/headers';
-import { useLogin } from './hooks';
+import { useAuth, useLogin } from './hooks';
 
 const LoginButton = () => {
   const login = useLogin();
@@ -17,16 +15,7 @@ const LoginButton = () => {
 };
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const [, setAccessToken] = useState('');
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      getAccessTokenSilently()
-        .then((token) => setAccessToken(token))
-        .catch(console.error);
-    }
-  }, [isAuthenticated, getAccessTokenSilently]);
+  const { user, isAuthenticated, isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -35,13 +24,7 @@ const Profile = () => {
         <Waveform color="white" />
       </VStack>
     );
-  }
-
-  if (!isAuthenticated) {
-    return <LoginButton />;
-  }
-
-  if (isAuthenticated && user) {
+  } else if (isAuthenticated) {
     return (
       <HStack>
         <Avatar name={user.name} src={user.picture} />
@@ -49,7 +32,7 @@ const Profile = () => {
       </HStack>
     );
   } else {
-    throw new Error('user must exist if isAuthenticated');
+    return <LoginButton />;
   }
 };
 

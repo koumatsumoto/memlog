@@ -5,7 +5,7 @@ import { ENV } from '../environments';
 import { useLogout } from '../hooks';
 
 export const AppHeader: FunctionComponent = () => {
-  const logout = useLogout();
+  const { logout, canLogout } = useLogout();
 
   return (
     <Container
@@ -20,7 +20,8 @@ export const AppHeader: FunctionComponent = () => {
       <Heading as="h1" sx={{ fontSize: '16px' }}>
         memlog<small>@{ENV.version}</small>
       </Heading>
-      <IconButton onClick={logout} size="xs" colorScheme="white" aria-label="Logout" icon={<CloseIcon />} sx={{ position: 'absolute', right: '8px', top: '12px' }} />
+
+      {canLogout && <IconButton onClick={logout} size="xs" colorScheme="white" aria-label="Logout" icon={<CloseIcon />} sx={{ position: 'absolute', right: '8px', top: '12px' }} />}
     </Container>
   );
 };
