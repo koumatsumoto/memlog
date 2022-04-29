@@ -22,6 +22,7 @@ const log = (message: string, ...args: any[]) => {
     }
   }
 
+  console.log(loggedMessages.at(-1));
   const e = document.querySelector<HTMLPreElement>('#devlog');
   if (e) {
     e.innerText = loggedMessages.join('\n');
