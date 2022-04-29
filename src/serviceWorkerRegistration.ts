@@ -145,3 +145,10 @@ export async function unregister() {
     log('failed to unregister serviceworker', e);
   }
 }
+
+// TODO(refactor):
+const handleQueryParamsFromShareTargetAPI = () => {
+  const params = Array.from(new URLSearchParams(window.location.search).entries());
+  log('query params', params);
+};
+handleQueryParamsFromShareTargetAPI();
