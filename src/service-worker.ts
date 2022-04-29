@@ -75,7 +75,7 @@ const sendLog = (message: string, ...data: unknown[]) => {
     clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
   });
 };
-//
+
 // setInterval(() => {
 //   self.clients.matchAll().then((clients) => {
 //     clients.forEach((client) => client.postMessage({ type: 'ping', data: Date.now() }));
@@ -92,7 +92,7 @@ self.addEventListener('fetch', (event) => {
 
   // If this is an incoming POST request for the
   // registered "action" URL, respond to it.
-  if (event.request.method === 'GET' && url.pathname.includes('/memlog/bookmark')) {
+  if (event.request.method === 'GET' && url.pathname === '/memlog/') {
     event.respondWith(
       (async () => {
         return Response.redirect('/memlog/', 303);
