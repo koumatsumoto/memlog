@@ -70,24 +70,24 @@ self.addEventListener('message', (event) => {
   }
 });
 
-const sendLog = (message: string, ...data: unknown[]) => {
-  self.clients.matchAll().then((clients) => {
-    clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
-  });
-};
-
-setInterval(() => {
-  self.clients.matchAll().then((clients) => {
-    clients.forEach((client) => client.postMessage({ type: 'ping', data: Date.now() }));
-  });
-}, 20000);
-
-setImmediate(() => {
-  sendLog('worker setup');
-});
+// const sendLog = (message: string, ...data: unknown[]) => {
+//   self.clients.matchAll().then((clients) => {
+//     clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
+//   });
+// };
+//
+// setInterval(() => {
+//   self.clients.matchAll().then((clients) => {
+//     clients.forEach((client) => client.postMessage({ type: 'ping', data: Date.now() }));
+//   });
+// }, 20000);
+//
+// setImmediate(() => {
+//   sendLog('worker setup');
+// });
 
 self.addEventListener('fetch', (event) => {
-  sendLog('onfetch', event.request.method, event.request.url);
+  // sendLog('onfetch', event.request.method, event.request.url);
 
   const url = new URL(event.request.url);
   // If this is an incoming POST request for the
@@ -95,8 +95,8 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method === 'POST' && url.pathname === '/bookmark') {
     event.respondWith(
       (async () => {
-        const formdata = await event.request.formData();
-        sendLog('formdata', formdata.entries());
+        // const formdata = await event.request.formData();
+        // sendLog('formdata', formdata.entries());
         return Response.redirect(url, 303);
       })(),
     );
