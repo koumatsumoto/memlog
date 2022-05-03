@@ -29,7 +29,7 @@ const redirectToGitHubLoginPage = () => {
 };
 
 export const replaceLocationWithTopPage = () => {
-  window.location.replace('/');
+  window.location.replace(ENV.routes.top);
 };
 
 const githubAuthCodeState = atom({ key: 'githubAuthCodeState', default: getUrlQueryParams().code });

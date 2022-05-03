@@ -11,6 +11,10 @@ const version = process.env.REACT_APP_VERSION?.slice(0, 6);
 const oauthRedirectUrl = isLocalhost ? 'http://localhost:3000/' : 'https://koumatsumoto.github.io/memlog/';
 const oauthClientId = isLocalhost ? '5cb413dcbc4c7e0dccf9' : 'd63100b983d6c453f86e';
 
+const routes = {
+  top: isLocalhost ? '/' : '/memlog/',
+};
+
 export const ENV = {
   version,
   publicURL,
@@ -18,4 +22,5 @@ export const ENV = {
   isProduction,
   oauthRedirectUrl,
   oauthClientId,
+  routes,
 } as const;
