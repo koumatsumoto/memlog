@@ -37,10 +37,8 @@ export const useAuth = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const { code: githubAuthCode } = getUrlQueryParams(); // exists if redirected from github login page
 
-  const shouldRequestAccessToken = !accessToken && githubAuthCode && !loading;
-
   useEffect(() => {
-    if (shouldRequestAccessToken) {
+    if (!accessToken && githubAuthCode && !loading) {
       setLoading(true);
       requestAccessToken({ code: githubAuthCode })
         .then(({ data, error }) => {
@@ -51,19 +49,15 @@ export const useAuth = () => {
           setAccessToken(data.access_token);
         })
         .catch((e) => {
-          alert(JSON.stringify(e));
+          alert(`AccessToken request failed: ${JSON.stringify(e)}`);
           window.location.replace('/');
         })
         .finally(() => {
           removeGitHubCodeFromURL();
           setLoading(false);
         });
-    } else if (accessToken) {
-      return; // login has been completed
-    } else {
-      return;
     }
-  }, [accessToken, setAccessToken, githubAuthCode, loading]);
+  }, [loading, githubAuthCode, accessToken, setAccessToken]);
 
-  return { loading, accessToken };
+  return { loading, loggedIn: Boolean(accessToken), token: accessToken ?? '' };
 };

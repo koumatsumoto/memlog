@@ -22,7 +22,7 @@ export const Login: FunctionComponent = () => {
         position: 'relative',
       }}
     >
-      <Button onClick={navigateToGitHubLoginPage} colorScheme="teal" size="md">
+      <Button onClick={navigateToGitHubLoginPage} colorScheme="green" size="md">
         Login
       </Button>
     </Container>
