@@ -43,7 +43,6 @@
     "params": {
       "text": "text",
       "title": "title",
-      "url": "url"
     }
   }
 }
