@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { getUrlQueryParams } from '../utils';
 
 type AccessTokenResponse = { data: { access_token: string; scope: string; token_type: 'bearer' }; error: undefined } | { data: undefined; error: string | 'bad_verification_code' };
 const requestAccessToken = async ({ code }: { code: string }): Promise<AccessTokenResponse> => {
-  return await fetch('https://memlog-auth.deno.dev', { method: 'post', body: JSON.stringify({ code }) }).then((res) => res.json());
+  return await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code }) }).then((res) => res.json());
+};
+const requestLogout = async ({ token }: { token: string }): Promise<AccessTokenResponse> => {
+  return await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token }) }).then((res) => res.json());
 };
 
 const getCurrentUrlWithoutParameters = () => {
@@ -14,6 +17,10 @@ const getCurrentUrlWithoutParameters = () => {
 
 const removeGitHubCodeFromURL = () => {
   window.history.replaceState({ time: Date.now() }, document.title, getCurrentUrlWithoutParameters());
+};
+
+const reloadToTopPage = () => {
+  window.location.replace('/');
 };
 
 const accessTokenState = atom<string | null>({
@@ -36,6 +43,9 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(false);
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const { code: githubAuthCode } = getUrlQueryParams(); // exists if redirected from github login page
+  const logout = useCallback(() => {
+    requestLogout({ token: accessToken ?? '' }).finally(reloadToTopPage);
+  }, [accessToken]);
 
   useEffect(() => {
     if (!accessToken && githubAuthCode && !loading) {
@@ -50,7 +60,7 @@ export const useAuth = () => {
         })
         .catch((e) => {
           alert(`AccessToken request failed: ${JSON.stringify(e)}`);
-          window.location.replace('/');
+          reloadToTopPage();
         })
         .finally(() => {
           removeGitHubCodeFromURL();
@@ -59,5 +69,5 @@ export const useAuth = () => {
     }
   }, [loading, githubAuthCode, accessToken, setAccessToken]);
 
-  return { loading, loggedIn: Boolean(accessToken), token: accessToken ?? '' };
+  return { loading, loggedIn: Boolean(accessToken), token: accessToken ?? '', logout };
 };

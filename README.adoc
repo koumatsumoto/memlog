@@ -6,5 +6,7 @@
 
 https://koumatsumoto.github.io/memlog/
 
-ログ::
-- https://dash.deno.com/projects/memlog-auth/logs
+== URL
+
+- https://github.com/settings/applications/1893257[GitHub OAuth Application Setting Page]
+- https://dash.deno.com/projects/memlog-auth/logs[Deno Server Logs]

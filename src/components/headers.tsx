@@ -2,9 +2,10 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { Container, Heading, IconButton } from '@chakra-ui/react';
 import React, { FunctionComponent } from 'react';
 import { ENV } from '../environments';
+import { useAuth } from '../hooks';
 
 export const AppHeader: FunctionComponent = () => {
-  const logout = () => {}; // not implemented
+  const { loggedIn, logout } = useAuth();
 
   return (
     <Container
@@ -20,7 +21,7 @@ export const AppHeader: FunctionComponent = () => {
         memlog<small>@{ENV.version}</small>
       </Heading>
 
-      {false && <IconButton onClick={logout} size="xs" colorScheme="white" aria-label="Logout" icon={<CloseIcon />} sx={{ position: 'absolute', right: '8px', top: '12px' }} />}
+      {loggedIn && <IconButton onClick={logout} size="xs" colorScheme="white" aria-label="Logout" icon={<CloseIcon />} sx={{ position: 'absolute', right: '8px', top: '12px' }} />}
     </Container>
   );
 };
