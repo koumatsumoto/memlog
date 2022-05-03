@@ -24,7 +24,7 @@ const redirectToGitHubLoginPage = () => {
   window.location.href = `https://github.com/login/oauth/authorize?${new URLSearchParams({
     client_id: ENV.oauthClientId,
     redirect_uri: ENV.oauthRedirectUrl,
-    state: `${Date.now()}`,
+    scope: 'read:user repo',
   })}`;
 };
 
