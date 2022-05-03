@@ -1,8 +1,7 @@
-import { ApolloClient, gql, HttpLink, InMemoryCache, useQuery, from } from '@apollo/client';
+import { ApolloClient, from, gql, HttpLink, InMemoryCache, useQuery } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
-import { useState } from 'react';
-import { reloadToTopPage } from './auth';
+import { replaceLocationWithTopPage } from './auth';
 import { storage } from './storage';
 
 const GET_PROFILE = gql`
@@ -38,22 +37,18 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     // maybe AccessToken expired
     if ('statusCode' in networkError && networkError.statusCode === 401) {
       storage.resetAccessToken();
-      reloadToTopPage();
+      replaceLocationWithTopPage();
     }
   }
 });
 
-export const useGitHubApolloClient = () => {
-  const [client] = useState(
-    new ApolloClient({
-      cache: new InMemoryCache(),
-      link: from([errorLink, setAuthorizationLink, httpLink]),
-    }),
-  );
-
-  return client;
+export const createGitHubApolloClient = () => {
+  return new ApolloClient({
+    cache: new InMemoryCache(),
+    link: from([errorLink, setAuthorizationLink, httpLink]),
+  });
 };
 
-export const useGitHubUserProfile = (token: string) => {
-  return useQuery(GET_PROFILE, { context: { headers: { authorization: `Bearer ${token}` } } });
+export const useGitHubUserProfile = () => {
+  return useQuery(GET_PROFILE);
 };
