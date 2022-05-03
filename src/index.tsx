@@ -1,13 +1,15 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
 import App from './App';
 import { theme } from './components/theme';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(
   <React.StrictMode>
     <RecoilRoot>
       <ChakraProvider theme={theme}>
@@ -15,7 +17,6 @@ ReactDOM.render(
       </ChakraProvider>
     </RecoilRoot>
   </React.StrictMode>,
-  document.getElementById('root'),
 );
 
 serviceWorkerRegistration.register();
