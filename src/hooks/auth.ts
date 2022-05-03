@@ -43,7 +43,7 @@ export const useLogin = () => {
   const loginWithRedirect = redirectToGitHubLoginPage;
   const logoutWithReload = useCallback(async () => {
     await requestLogout({ token: accessToken ?? '' });
-    storage.resetAccessToken();
+    storage.resetAll();
     replaceLocationWithTopPage();
   }, [accessToken]);
 

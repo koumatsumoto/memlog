@@ -36,7 +36,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     console.log(`[Network error]: ${networkError}`);
     // maybe AccessToken expired
     if ('statusCode' in networkError && networkError.statusCode === 401) {
-      storage.resetAccessToken();
+      storage.resetAll();
       replaceLocationWithTopPage();
     }
   }
