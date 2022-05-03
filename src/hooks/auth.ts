@@ -1,13 +1,27 @@
 import { useCallback, useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
 import { getUrlQueryParams } from '../utils';
+import { storage } from './storage';
 
 type AccessTokenResponse = { data: { access_token: string; scope: string; token_type: 'bearer' }; error: undefined } | { data: undefined; error: string | 'bad_verification_code' };
-const requestAccessToken = async ({ code }: { code: string }): Promise<AccessTokenResponse> => {
-  return await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code }) }).then((res) => res.json());
+const requestAccessToken = async ({ code }: { code: string }) => {
+  const { data, error } = await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code }) }).then((res) => res.json() as Promise<AccessTokenResponse>);
+  if (!data) {
+    throw error;
+  }
+
+  return data;
 };
-const requestLogout = async ({ token }: { token: string }): Promise<AccessTokenResponse> => {
+const requestLogout = async ({ token }: { token: string }): Promise<{}> => {
   return await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token }) }).then((res) => res.json());
+};
+
+const moveToGitHubLoginPage = () => {
+  window.location.href = `https://github.com/login/oauth/authorize?${new URLSearchParams({
+    client_id: '5cb413dcbc4c7e0dccf9',
+    redirect_uri: 'http://localhost:3000/',
+    state: `${Date.now()}`,
+  })}`;
 };
 
 const getCurrentUrlWithoutParameters = () => {
@@ -19,47 +33,32 @@ const removeGitHubCodeFromURL = () => {
   window.history.replaceState({ time: Date.now() }, document.title, getCurrentUrlWithoutParameters());
 };
 
-const reloadToTopPage = () => {
-  window.location.replace('/');
+export const reloadToTopPage = () => {
+  setTimeout(() => window.location.replace('/'), 100);
 };
 
 const accessTokenState = atom<string | null>({
   key: 'accessTokenState',
-  default: window.localStorage.getItem('accessToken'),
-  effects: [
-    ({ onSet }) => {
-      onSet((value) => {
-        if (value) {
-          window.localStorage.setItem('AccessToken', value);
-        } else {
-          window.localStorage.removeItem('AccessToken');
-        }
-      });
-    },
-  ],
+  default: storage.loadAccessToken(),
+  effects: [({ onSet }) => onSet(storage.saveAccessToken)],
 });
 
 export const useAuth = () => {
-  const [loading, setLoading] = useState(false);
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [loading, setLoading] = useState(false);
+  const loggedIn = Boolean(accessToken);
   const { code: githubAuthCode } = getUrlQueryParams(); // exists if redirected from github login page
-  const logout = useCallback(() => {
-    requestLogout({ token: accessToken ?? '' }).finally(reloadToTopPage);
-  }, [accessToken]);
 
   useEffect(() => {
-    if (!accessToken && githubAuthCode && !loading) {
+    if (!loading && !loggedIn && githubAuthCode) {
       setLoading(true);
       requestAccessToken({ code: githubAuthCode })
-        .then(({ data, error }) => {
-          if (!data) {
-            throw error;
-          }
-
+        .then((data) => {
           setAccessToken(data.access_token);
         })
-        .catch((e) => {
-          alert(`AccessToken request failed: ${JSON.stringify(e)}`);
+        .catch((error) => {
+          setAccessToken(null);
+          alert(`AccessToken request failed: ${JSON.stringify(error)}`);
           reloadToTopPage();
         })
         .finally(() => {
@@ -67,7 +66,13 @@ export const useAuth = () => {
           setLoading(false);
         });
     }
-  }, [loading, githubAuthCode, accessToken, setAccessToken]);
+  }, [loading, loggedIn, githubAuthCode, setAccessToken, setLoading]);
 
-  return { loading, loggedIn: Boolean(accessToken), token: accessToken ?? '', logout };
+  return {
+    loading,
+    loggedIn,
+    token: accessToken ?? '',
+    logout: useCallback(() => requestLogout({ token: accessToken ?? '' }).finally(reloadToTopPage), [accessToken]),
+    login: moveToGitHubLoginPage,
+  } as const;
 };

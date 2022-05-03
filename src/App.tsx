@@ -1,10 +1,10 @@
-import { Avatar, Container, HStack, Text, VStack } from '@chakra-ui/react';
+import { ApolloProvider } from '@apollo/client';
+import { Avatar, Button, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
-import { Login } from './components/Login';
+import React from 'react';
 import { FullScreenContainer } from './components/containers';
 import { AppHeader } from './components/headers';
-import { useAuth } from './hooks';
-import { useGitHubUserProfile } from './hooks/github';
+import { useAuth, useGitHubApolloClient, useGitHubUserProfile } from './hooks';
 
 const Loading = () => {
   return (
@@ -34,7 +34,7 @@ const UserProfile = () => {
 };
 
 const Contents = () => {
-  const { loading, loggedIn } = useAuth();
+  const { loading, loggedIn, login } = useAuth();
 
   if (loading) {
     return <Loading />;
@@ -43,17 +43,35 @@ const Contents = () => {
     return <UserProfile />;
   }
 
-  return <Login />;
+  return (
+    <Container
+      centerContent
+      sx={{
+        color: 'white',
+        height: '60px',
+        padding: '12px 16px',
+        position: 'relative',
+      }}
+    >
+      <Button onClick={login} colorScheme="green" size="md">
+        Login
+      </Button>
+    </Container>
+  );
 };
 
 function App() {
+  const client = useGitHubApolloClient();
+
   return (
-    <FullScreenContainer>
-      <AppHeader />
-      <Container centerContent padding={4}>
-        <Contents />
-      </Container>
-    </FullScreenContainer>
+    <ApolloProvider client={client}>
+      <FullScreenContainer>
+        <AppHeader />
+        <Container centerContent padding={4}>
+          <Contents />
+        </Container>
+      </FullScreenContainer>
+    </ApolloProvider>
   );
 }
 
