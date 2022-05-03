@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
+import { ENV } from '../environments';
 import { storage } from './storage';
 
 type AccessTokenResponse = { data: { access_token: string; scope: string; token_type: 'bearer' }; error: undefined } | { data: undefined; error: string | 'bad_verification_code' };
 const requestAccessToken = async (code: string) => {
-  const { data, error } = await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code }) }).then((res) => res.json() as Promise<AccessTokenResponse>);
+  const { data, error } = await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code, isDev: ENV.isLocalhost }) }).then((res) => res.json() as Promise<AccessTokenResponse>);
   if (!data) {
     throw error;
   }
@@ -13,7 +14,7 @@ const requestAccessToken = async (code: string) => {
 };
 
 const requestLogout = async ({ token }: { token: string }): Promise<{}> => {
-  return await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token }) }).then((res) => res.json());
+  return await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token, isDev: ENV.isLocalhost }) }).then((res) => res.json());
 };
 
 const moveToGitHubLoginPage = () => {
