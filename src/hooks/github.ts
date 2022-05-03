@@ -20,9 +20,13 @@ const httpLink = new HttpLink({
   uri: 'https://api.github.com/graphql',
 });
 
-const setAuthorizationLink = setContext(() => ({
-  headers: { authorization: `Bearer ${storage.loadAccessToken()}` },
-}));
+const setAuthorizationLink = setContext(() => {
+  const token = storage.loadAccessToken();
+
+  return {
+    headers: { authorization: `Bearer ${token}` },
+  };
+});
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
@@ -31,7 +35,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
   if (networkError) {
     console.log(`[Network error]: ${networkError}`);
-
     // maybe AccessToken expired
     if ('statusCode' in networkError && networkError.statusCode === 401) {
       storage.resetAccessToken();

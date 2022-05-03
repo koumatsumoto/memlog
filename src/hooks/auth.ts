@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { atom, useRecoilState } from 'recoil';
-import { getUrlQueryParams } from '../utils';
 import { storage } from './storage';
 
 type AccessTokenResponse = { data: { access_token: string; scope: string; token_type: 'bearer' }; error: undefined } | { data: undefined; error: string | 'bad_verification_code' };
-const requestAccessToken = async ({ code }: { code: string }) => {
+const requestAccessToken = async (code: string) => {
   const { data, error } = await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code }) }).then((res) => res.json() as Promise<AccessTokenResponse>);
   if (!data) {
     throw error;
@@ -12,6 +11,7 @@ const requestAccessToken = async ({ code }: { code: string }) => {
 
   return data;
 };
+
 const requestLogout = async ({ token }: { token: string }): Promise<{}> => {
   return await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token }) }).then((res) => res.json());
 };
@@ -24,13 +24,15 @@ const moveToGitHubLoginPage = () => {
   })}`;
 };
 
-const getCurrentUrlWithoutParameters = () => {
+const consumeGitHubAuthCodeInURL = () => {
   const url = new URL(window.location.href);
-  return url.origin + url.pathname;
-};
+  const code = url.searchParams.get('code');
+  url.searchParams.delete('code');
 
-const removeGitHubCodeFromURL = () => {
-  window.history.replaceState({ time: Date.now() }, document.title, getCurrentUrlWithoutParameters());
+  const newPath = Array.from(url.searchParams.keys()).length ? `${url.pathname}?${url.searchParams}` : url.pathname;
+  window.history.replaceState({}, document.title, newPath);
+
+  return code;
 };
 
 export const reloadToTopPage = () => {
@@ -47,12 +49,12 @@ export const useAuth = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [loading, setLoading] = useState(false);
   const loggedIn = Boolean(accessToken);
-  const { code: githubAuthCode } = getUrlQueryParams(); // exists if redirected from github login page
 
   useEffect(() => {
+    const githubAuthCode = consumeGitHubAuthCodeInURL();
     if (!loading && !loggedIn && githubAuthCode) {
       setLoading(true);
-      requestAccessToken({ code: githubAuthCode })
+      requestAccessToken(githubAuthCode)
         .then((data) => {
           setAccessToken(data.access_token);
         })
@@ -62,17 +64,24 @@ export const useAuth = () => {
           reloadToTopPage();
         })
         .finally(() => {
-          removeGitHubCodeFromURL();
           setLoading(false);
+          reloadToTopPage();
         });
     }
-  }, [loading, loggedIn, githubAuthCode, setAccessToken, setLoading]);
+  }, [loading, loggedIn, setAccessToken, setLoading]);
 
   return {
     loading,
     loggedIn,
     token: accessToken ?? '',
-    logout: useCallback(() => requestLogout({ token: accessToken ?? '' }).finally(reloadToTopPage), [accessToken]),
+    logout: useCallback(
+      () =>
+        requestLogout({ token: accessToken ?? '' }).finally(() => {
+          storage.resetAccessToken();
+          reloadToTopPage();
+        }),
+      [accessToken],
+    ),
     login: moveToGitHubLoginPage,
   } as const;
 };
