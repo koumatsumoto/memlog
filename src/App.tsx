@@ -1,39 +1,30 @@
-import { Avatar, Button, Container, HStack, Text, VStack } from '@chakra-ui/react';
+import { Container, VStack, Text } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
+import { Login } from './components/Login';
 import { FullScreenContainer } from './components/containers';
 import { AppHeader } from './components/headers';
-import { useAuth, useLogin } from './hooks';
+import { useAuth } from './hooks';
 
-const LoginButton = () => {
-  const login = useLogin();
-
+const Loading = () => {
   return (
-    <Button colorScheme="green" onClick={login}>
-      Log In
-    </Button>
+    <VStack>
+      <Text>Loading</Text>
+      <Waveform color="white" />
+    </VStack>
   );
 };
 
-const Profile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth();
+const Contents = () => {
+  const { loading, accessToken } = useAuth();
 
-  if (isLoading) {
-    return (
-      <VStack>
-        <Text>Loading</Text>
-        <Waveform color="white" />
-      </VStack>
-    );
-  } else if (isAuthenticated) {
-    return (
-      <HStack>
-        <Avatar name={user.name} src={user.picture} />
-        <Text>{user.name}</Text>
-      </HStack>
-    );
-  } else {
-    return <LoginButton />;
+  if (loading) {
+    return <Loading />;
   }
+  if (accessToken) {
+    return <div>Logged In</div>;
+  }
+
+  return <Login />;
 };
 
 function App() {
@@ -41,7 +32,7 @@ function App() {
     <FullScreenContainer>
       <AppHeader />
       <Container centerContent padding={4}>
-        <Profile />
+        <Contents />
       </Container>
     </FullScreenContainer>
   );

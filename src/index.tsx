@@ -1,26 +1,19 @@
-import { Auth0Provider } from '@auth0/auth0-react';
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { RecoilRoot } from 'recoil';
 import App from './App';
 import { theme } from './components/theme';
-import { ENV } from './environments';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-const AUTH0_CONFIG = {
-  domain: 'dev-rfm-ej96.us.auth0.com',
-  clientId: 'zs2IueWS5SahYSkqXXFrvU0YREwCnNfh',
-  redirectUri: ENV.isLocalhost ? 'http://localhost:3000/' : 'https://koumatsumoto.github.io/memlog/',
-};
-
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0Provider domain={AUTH0_CONFIG.domain} clientId={AUTH0_CONFIG.clientId} redirectUri={AUTH0_CONFIG.redirectUri}>
+    <RecoilRoot>
       <ChakraProvider theme={theme}>
         <App />
       </ChakraProvider>
-    </Auth0Provider>
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root'),
 );

@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "export REACT_APP_VERSION=$(git rev-parse HEAD); PUBLIC_URL=/memlog npx react-scripts build",
+    "dev": "export REACT_APP_VERSION=$(git rev-parse HEAD); npx react-scripts start",
     "lint": "prettier --ignore-path .gitignore --write . && eslint --fix --ext ts,tsx ./src",
     "start": "export REACT_APP_VERSION=$(git rev-parse HEAD); npx react-scripts start",
     "test": "export REACT_APP_VERSION=$(git rev-parse HEAD); npx react-scripts test",
@@ -23,6 +24,7 @@
     "framer-motion": "^6.3.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "recoil": "^0.7.2",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",
