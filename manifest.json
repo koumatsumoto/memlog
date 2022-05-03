@@ -42,7 +42,7 @@
     "action": "/memlog/",
     "params": {
       "text": "text",
-      "title": "title",
+      "title": "title"
     }
   }
 }
