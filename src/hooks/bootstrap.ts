@@ -19,6 +19,7 @@ export const useApplicationBootstrap = () => {
     // page opened by Web Share API
     if (urlParams.title && urlParams.text) {
       alert(`Page opened by Web Share API, title=${urlParams.title}, text=${urlParams.text}`);
+      replaceLocationWithTopPage();
     }
 
     console.log('[info] application bootstrap', { urlParams, loginStatus });
