@@ -8,10 +8,14 @@ const isLocalhost = Boolean(
 const isProduction = process.env.NODE_ENV === 'production';
 const publicURL = process.env.PUBLIC_URL;
 const version = process.env.REACT_APP_VERSION?.slice(0, 6);
+const oauthRedirectUrl = isLocalhost ? 'http://localhost:3000/' : 'https://koumatsumoto.github.io/memlog/';
+const oauthClientId = isLocalhost ? '5cb413dcbc4c7e0dccf9' : 'd63100b983d6c453f86e';
 
 export const ENV = {
   version,
   publicURL,
   isLocalhost,
   isProduction,
+  oauthRedirectUrl,
+  oauthClientId,
 } as const;

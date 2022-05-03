@@ -5,7 +5,9 @@ import { storage } from './storage';
 
 type AccessTokenResponse = { data: { access_token: string; scope: string; token_type: 'bearer' }; error: undefined } | { data: undefined; error: string | 'bad_verification_code' };
 const requestAccessToken = async (code: string) => {
-  const { data, error } = await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code, isDev: ENV.isLocalhost }) }).then((res) => res.json() as Promise<AccessTokenResponse>);
+  const { data, error } = await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code, isDev: ENV.isLocalhost }) }).then(
+    (res) => res.json() as Promise<AccessTokenResponse>,
+  );
   if (!data) {
     throw error;
   }
@@ -19,8 +21,8 @@ const requestLogout = async ({ token }: { token: string }): Promise<{}> => {
 
 const moveToGitHubLoginPage = () => {
   window.location.href = `https://github.com/login/oauth/authorize?${new URLSearchParams({
-    client_id: '5cb413dcbc4c7e0dccf9',
-    redirect_uri: 'http://localhost:3000/',
+    client_id: ENV.oauthClientId,
+    redirect_uri: ENV.oauthRedirectUrl,
     state: `${Date.now()}`,
   })}`;
 };
