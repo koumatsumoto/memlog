@@ -1,5 +1,4 @@
-import { ApolloProvider } from '@apollo/client';
-import { createGitHubApolloClient, useApplicationBootstrap } from '../hooks';
+import { useApplicationBootstrap } from '../hooks';
 import { LoadingView, LoggedInView, NotLoggedInView } from './contents';
 import { AppHeader } from './headers';
 import { FullScreenLayout, MainContentsLayout } from './layouts';
@@ -16,11 +15,7 @@ function App() {
         return <LoadingView />;
       }
       case 'LoggedIn': {
-        return (
-          <ApolloProvider client={createGitHubApolloClient()}>
-            <LoggedInView />
-          </ApolloProvider>
-        );
+        return <LoggedInView />;
       }
     }
   };
