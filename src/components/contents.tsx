@@ -1,7 +1,47 @@
-import { Avatar, Button, Container, HStack, Text } from '@chakra-ui/react';
+import { Avatar, Button, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { useGitHubUserProfile, useLogin } from '../hooks';
+import { useCommitMutation, useGitHubUserProfile, useLogin } from '../hooks';
 import { Loading } from './Loading';
+
+export const CreateCommitButton = () => {
+  const [createCommit, { data, loading, error }] = useCommitMutation();
+  const onClick = () =>
+    createCommit({
+      variables: {
+        input: {
+          branch: {
+            repositoryNameWithOwner: 'kouMatsumoto/memlog-storage',
+            branchName: 'main',
+          },
+          message: { headline: 'Hello from GraphQL!' },
+          fileChanges: {
+            additions: [
+              {
+                path: 'GraphQL.md',
+                contents: 'YQ==',
+              },
+            ],
+          },
+          expectedHeadOid: '04d7a7eb276eadc61c80618411b85d2dc13b5fc0',
+        },
+      },
+    });
+
+  if (error) {
+    return <pre>{JSON.stringify(error)}</pre>;
+  } else if (loading) {
+    return <Loading />;
+  } else {
+    return (
+      <>
+        <Button onClick={onClick} colorScheme="green" size="md">
+          Create Commit
+        </Button>
+        <pre>{JSON.stringify(data)}</pre>
+      </>
+    );
+  }
+};
 
 export const LoggedInView = () => {
   const { loading, error, data } = useGitHubUserProfile();
@@ -12,10 +52,13 @@ export const LoggedInView = () => {
     return <Loading />;
   } else {
     return (
-      <HStack>
-        <Avatar name={data.viewer.name} src={data.viewer.avatarUrl} />
-        <Text>{data.viewer.name}</Text>
-      </HStack>
+      <VStack>
+        <HStack>
+          <Avatar name={data.viewer.name} src={data.viewer.avatarUrl} />
+          <Text>{data.viewer.name}</Text>
+        </HStack>
+        <CreateCommitButton />
+      </VStack>
     );
   }
 };

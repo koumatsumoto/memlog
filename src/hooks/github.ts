@@ -1,4 +1,4 @@
-import { ApolloClient, from, gql, HttpLink, InMemoryCache, useQuery } from '@apollo/client';
+import { ApolloClient, from, gql, HttpLink, InMemoryCache, useQuery, useMutation } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { replaceLocationWithTopPage } from './auth';
@@ -9,8 +9,17 @@ const GET_PROFILE = gql`
     viewer {
       login
       name
-      url
       avatarUrl
+    }
+  }
+`;
+
+const CREATE_COMMIT = gql`
+  mutation CreateCommit($input: CreateCommitOnBranchInput!) {
+    createCommitOnBranch(input: $input) {
+      commit {
+        url
+      }
     }
   }
 `;
@@ -51,4 +60,8 @@ export const createGitHubApolloClient = () => {
 
 export const useGitHubUserProfile = () => {
   return useQuery(GET_PROFILE);
+};
+
+export const useCommitMutation = () => {
+  return useMutation(CREATE_COMMIT);
 };
