@@ -37,7 +37,8 @@ export const CreateCommitButton = () => {
         <Button onClick={onClick} colorScheme="green" size="sm">
           Create Commit
         </Button>
-        <DataViewer data={data} />
+        {data && <DataViewer data={data} />}
+        {error && <DataViewer data={error} />}
       </VStack>
     );
   }
