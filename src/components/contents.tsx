@@ -1,6 +1,7 @@
-import { Avatar, Button, Container, HStack, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Button, Code, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { useCreateCommitMutation, useLogin, useUserProfileQuery } from '../hooks';
+import { prettyJson } from '../utils/object';
 import { Loading } from './Loading';
 
 export const CreateCommitButton = () => {
@@ -13,12 +14,25 @@ export const CreateCommitButton = () => {
     return <Loading />;
   } else {
     return (
-      <>
-        <Button onClick={onClick} colorScheme="green" size="md">
+      <VStack spacing={4}>
+        <Button onClick={onClick} colorScheme="green" size="sm">
           Create Commit
         </Button>
-        <pre>{JSON.stringify(data)}</pre>
-      </>
+        <Container>
+          <Code
+            sx={{
+              whiteSpace: 'pre',
+              maxWidth: '100%',
+              overflowX: 'scroll',
+              '&::-webkit-scrollbar': {
+                display: 'none',
+              },
+            }}
+          >
+            {prettyJson(data)}
+          </Code>
+        </Container>
+      </VStack>
     );
   }
 };
@@ -32,7 +46,7 @@ export const LoggedInView = () => {
     return <Loading />;
   } else {
     return (
-      <VStack>
+      <VStack spacing={8}>
         <HStack>
           <Avatar name={data.viewer.name} src={data.viewer.avatarUrl} />
           <Text>{data.viewer.name}</Text>
