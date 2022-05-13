@@ -1,7 +1,7 @@
 import { Avatar, Button, Code, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { useCreateCommitMutation, useLogin, useUserProfileQuery } from '../hooks';
-import { prettyJson } from '../utils/object';
+import { prettyJson } from '../utils';
 import { Loading } from './Loading';
 
 export const CreateCommitButton = () => {
