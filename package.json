@@ -44,6 +44,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
     "@commitlint/config-conventional": "^16.2.4",
+    "@sucrase/jest-plugin": "^2.2.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -95,6 +96,14 @@
           ]
         }
       ]
+    }
+  },
+  "jest": {
+    "testMatch": [
+      "**/*.test.ts"
+    ],
+    "transform": {
+      "\\.(js|jsx|ts|tsx)$": "@sucrase/jest-plugin"
     }
   },
   "commitlint": {

@@ -5,7 +5,7 @@ import { Loading } from './Loading';
 
 export const CreateCommitButton = () => {
   const [createCommit, { data, loading, error }] = useCreateCommitMutation();
-  const onClick = () => createCommit({ owner: 'kouMatsumoto', repositoryName: 'memlog-storage' });
+  const onClick = () => createCommit({ owner: 'kouMatsumoto', repositoryName: 'memlog-storage', contents: '日本語でテスト' });
 
   if (error) {
     return <pre>{JSON.stringify(error)}</pre>;

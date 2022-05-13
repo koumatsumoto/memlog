@@ -1,6 +1,7 @@
 import { graphql } from '@octokit/graphql';
 import { format } from 'date-fns';
 import { useCallback, useEffect, useState } from 'react';
+import { toBase64 } from '../utils';
 import { storage } from './storage';
 
 const getMemlogStorageFileName = (time = new Date()) => {
@@ -89,7 +90,7 @@ export const useUserProfileQuery = () => {
 export const useCreateCommitMutation = () => {
   const [result, setResult] = useState<{ loading: boolean; data: any; error: unknown }>({ loading: false, data: undefined, error: undefined });
   const execute = useCallback(
-    async ({ owner, repositoryName }: { owner: string; repositoryName: string }) => {
+    async ({ owner, repositoryName, contents }: { owner: string; repositoryName: string; contents: string }) => {
       const headers = getAuthorizationHeader();
       setResult({ loading: true, data: undefined, error: undefined });
       const { repository } = await queryLastCommitOid({ headers, owner: owner, name: repositoryName });
@@ -99,7 +100,7 @@ export const useCreateCommitMutation = () => {
           branch: { repositoryNameWithOwner: `${owner}/${repositoryName}`, branchName: repository.defaultBranchRef.name },
           expectedHeadOid: repository.defaultBranchRef.target.oid,
           message: { headline: 'update by memlog' },
-          fileChanges: { additions: [{ path: getMemlogStorageFileName(), contents: 'YQ==' }] },
+          fileChanges: { additions: [{ path: getMemlogStorageFileName(), contents: toBase64(contents) }] },
         },
       })
         .then((data) => setResult({ loading: false, data, error: undefined }))
