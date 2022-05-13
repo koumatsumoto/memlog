@@ -1,6 +1,7 @@
 import { Avatar, Button, Code, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { useCreateCommitMutation, useLogin, useUserProfileQuery } from '../hooks';
+import { useCreateCommitMutation, useLogin, useQuery } from '../hooks';
+import { GQL } from '../hooks/github/gql';
 import { prettyJson } from '../utils';
 import { Loading } from './Loading';
 
@@ -45,7 +46,7 @@ export const CreateCommitButton = () => {
 };
 
 export const LoggedInView = () => {
-  const { loading, error, data } = useUserProfileQuery();
+  const { loading, error, data } = useQuery(GQL.USER_INFORMATION, { repositoryName: 'memlog-storage' });
 
   if (error) {
     return <DataViewer data={error} />;
