@@ -24,7 +24,7 @@ export const useQuery = <T extends GQLQueries>(query: T, params: GQLQueryParams<
 
 type UseMutationResult<Data> = { loading: boolean; data: undefined; error: undefined } | { loading: false; data: Data; error: undefined } | { loading: false; data: undefined; error: Error };
 export const useMutation = <T extends GQLMutations, Params = GQLMutationParams<T>>(gql: GQLMutations) => {
-  const [result, setResult] = useState<UseMutationResult<T>>({ loading: false, data: undefined, error: undefined });
+  const [result, setResult] = useState<UseMutationResult<GQLMutationData<T>>>({ loading: false, data: undefined, error: undefined });
   const fn = useCallback(
     async (params: Params) => {
       setResult({ loading: true, data: undefined, error: undefined });
