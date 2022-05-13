@@ -4,12 +4,31 @@ import { useCreateCommitMutation, useLogin, useUserProfileQuery } from '../hooks
 import { prettyJson } from '../utils';
 import { Loading } from './Loading';
 
+const DataViewer = ({ data }: { data: unknown }) => {
+  return (
+    <Container>
+      <Code
+        sx={{
+          whiteSpace: 'pre',
+          maxWidth: '100%',
+          maxHeight: '100%',
+          overflow: 'scroll',
+          padding: '0.78em',
+          '&::-webkit-scrollbar': { display: 'none' },
+        }}
+      >
+        {prettyJson(data)}
+      </Code>
+    </Container>
+  );
+};
+
 export const CreateCommitButton = () => {
   const [createCommit, { data, loading, error }] = useCreateCommitMutation();
   const onClick = () => createCommit({ owner: 'kouMatsumoto', repositoryName: 'memlog-storage', contents: '日本語でテスト' });
 
   if (error) {
-    return <pre>{JSON.stringify(error)}</pre>;
+    return <DataViewer data={error} />;
   } else if (loading) {
     return <Loading />;
   } else {
@@ -18,20 +37,7 @@ export const CreateCommitButton = () => {
         <Button onClick={onClick} colorScheme="green" size="sm">
           Create Commit
         </Button>
-        <Container>
-          <Code
-            sx={{
-              whiteSpace: 'pre',
-              maxWidth: '100%',
-              overflowX: 'scroll',
-              '&::-webkit-scrollbar': {
-                display: 'none',
-              },
-            }}
-          >
-            {prettyJson(data)}
-          </Code>
-        </Container>
+        <DataViewer data={data} />
       </VStack>
     );
   }
@@ -41,7 +47,7 @@ export const LoggedInView = () => {
   const { loading, error, data } = useUserProfileQuery();
 
   if (error) {
-    return <pre>{JSON.stringify(error)}</pre>;
+    return <DataViewer data={error} />;
   } else if (loading) {
     return <Loading />;
   } else {

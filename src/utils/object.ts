@@ -1,1 +1,1 @@
-export const prettyJson = (data: object) => JSON.stringify(data, null, 2);
+export const prettyJson = (data: unknown) => JSON.stringify(data, null, 2);

@@ -11,8 +11,11 @@ export const FullScreenLayout: FunctionComponent<PropsWithChildren<{}>> = ({ chi
         height: '100%',
         bg: '#282c34',
         color: 'white',
-        overflow: 'hidden',
+        overflow: 'auto',
         padding: '0',
+        '&::-webkit-scrollbar': { width: '4px' },
+        '&::-webkit-scrollbar-track': { background: 'transparent', borderColor: 'transparent' },
+        '&::-webkit-scrollbar-thumb': { background: '#7d9586', borderRadius: '10vh' },
       }}
     >
       {children}
