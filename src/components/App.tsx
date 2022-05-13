@@ -2,7 +2,7 @@ import { useApplicationBootstrap } from '../hooks';
 import { SuspenseContainer } from './Container';
 import { AppHeader } from './Header';
 import { FullScreenLayout, MainContentsLayout } from './Layout';
-import { LoadingView, LoggedInView, NotLoggedInView } from './contents';
+import { LoadingView, LoggedInView, NotLoggedInView } from './views/contents';
 
 function App() {
   const { statusType } = useApplicationBootstrap();

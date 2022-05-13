@@ -1,9 +1,9 @@
 import { Avatar, Button, Code, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
 import React from 'react';
-import { useCreateCommitMutation, useLogin } from '../hooks';
-import { userinfoLoader } from '../hooks/github/loader';
-import { prettyJson } from '../utils';
+import { useCreateCommitMutation, useLogin } from '../../hooks';
+import { userinfoLoader } from '../../hooks/github/loader';
+import { prettyJson } from '../../utils';
 
 const DataView = ({ data }: { data: unknown }) => {
   return (
