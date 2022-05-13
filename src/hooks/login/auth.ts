@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { atom, useRecoilValue } from 'recoil';
-import { ENV } from '../environments';
-import { getUrlQueryParams } from '../utils';
-import { storage } from './storage';
+import { ENV } from '../../environments';
+import { getUrlQueryParams } from '../../utils';
+import { storage } from '../storage';
 
 type AccessTokenResponse = { data: { access_token: string; scope: string; token_type: 'bearer' }; error: undefined } | { data: undefined; error: string | 'bad_verification_code' };
 export const requestAccessTokenAndSaveToStorage = async (code: string) => {

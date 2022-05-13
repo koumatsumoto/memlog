@@ -1,4 +1,4 @@
-export * from './auth';
+export * from './github';
+export * from './login';
 export * from './bootstrap';
-export * from './github/hooks';
 export * from './storage';

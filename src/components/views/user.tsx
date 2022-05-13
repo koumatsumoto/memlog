@@ -1,7 +1,6 @@
 import { Avatar, Button, HStack, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { useCreateCommitMutation } from '../../hooks';
-import { userinfoLoader } from '../../hooks/github/loader';
+import { useCreateCommitMutation, userinfoLoader } from '../../hooks';
 import { DataView } from './utils';
 
 export const LoggedInView = () => {

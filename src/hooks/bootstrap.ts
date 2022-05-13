@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { atom, useRecoilValue } from 'recoil';
 import { getUrlQueryParams } from '../utils';
-import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage, useGitHubAccessToken, useGitHubAuthCode } from './auth';
+import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage, useGitHubAccessToken, useGitHubAuthCode } from './login';
 
 const initialUrlParamsState = atom({ key: 'initialUrlParamsState', default: getUrlQueryParams() });
 
