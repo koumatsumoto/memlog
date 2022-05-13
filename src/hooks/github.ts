@@ -1,6 +1,12 @@
 import { graphql } from '@octokit/graphql';
+import { format } from 'date-fns';
 import { useCallback, useEffect, useState } from 'react';
 import { storage } from './storage';
+
+const getMemlogStorageFileName = (time = new Date()) => {
+  // ファイルを一覧表示しやすいようにフォルダの階層は1つとする
+  return format(time, `yyyyMM/${time.getTime()}`);
+};
 
 const getAuthorizationHeader = () => {
   const token = storage.loadAccessToken();
@@ -93,7 +99,7 @@ export const useCreateCommitMutation = () => {
           branch: { repositoryNameWithOwner: `${owner}/${repositoryName}`, branchName: repository.defaultBranchRef.name },
           expectedHeadOid: repository.defaultBranchRef.target.oid,
           message: { headline: 'update by memlog' },
-          fileChanges: { additions: [{ path: `${Date.now()}`, contents: 'YQ==' }] },
+          fileChanges: { additions: [{ path: getMemlogStorageFileName(), contents: 'YQ==' }] },
         },
       })
         .then((data) => setResult({ loading: false, data, error: undefined }))
