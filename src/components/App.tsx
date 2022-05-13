@@ -1,22 +1,24 @@
 import { useApplicationBootstrap } from '../hooks';
+import { SuspenseContainer } from './Container';
+import { AppHeader } from './Header';
+import { FullScreenLayout, MainContentsLayout } from './Layout';
 import { LoadingView, LoggedInView, NotLoggedInView } from './contents';
-import { AppHeader } from './headers';
-import { FullScreenLayout, MainContentsLayout } from './layouts';
 
 function App() {
-  const { status } = useApplicationBootstrap();
+  const { statusType } = useApplicationBootstrap();
 
   const Contents = () => {
-    switch (status) {
-      case 'NotLoggedIn': {
+    switch (statusType) {
+      case 'NotLoggedIn':
         return <NotLoggedInView />;
-      }
-      case 'GettingAccessToken': {
+      case 'GettingAccessToken':
         return <LoadingView />;
-      }
-      case 'LoggedIn': {
-        return <LoggedInView />;
-      }
+      case 'LoggedIn':
+        return (
+          <SuspenseContainer>
+            <LoggedInView />
+          </SuspenseContainer>
+        );
     }
   };
 

@@ -9,7 +9,7 @@ export const useApplicationBootstrap = () => {
   const urlParams = useRecoilValue(initialUrlParamsState);
   const githubAuthCode = useGitHubAuthCode();
   const githubAccessToken = useGitHubAccessToken();
-  const loginStatus = githubAccessToken ? 'LoggedIn' : githubAuthCode ? 'GettingAccessToken' : 'NotLoggedIn';
+  const statusType = githubAccessToken ? 'LoggedIn' : githubAuthCode ? 'GettingAccessToken' : 'NotLoggedIn';
 
   useEffect(() => {
     // page redirected from github login page for oauth
@@ -22,10 +22,10 @@ export const useApplicationBootstrap = () => {
       replaceLocationWithTopPage();
     }
 
-    console.log('[info] application bootstrap', { urlParams, loginStatus });
+    console.log('[info] application bootstrap', { urlParams, loginStatus: statusType });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
-    status: loginStatus,
+    statusType,
   } as const;
 };

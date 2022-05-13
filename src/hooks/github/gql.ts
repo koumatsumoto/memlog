@@ -41,6 +41,19 @@ const REPOSITORY_LAST_COMMIT_ID = `
   }
 ` as const;
 
+const GET_FILE_CONTENT = `
+  query GetRepositoryFile($owner: String!, $name: String!, $expression: String!) {
+    repository(owner: $owner, name: $name) {
+      object(expression: $expression) {
+        ... on Blob {
+          byteSize
+          text
+        }
+      }
+    }
+  }
+` as const;
+
 const CREATE_COMMIT = `
   mutation CreateCommit($input: CreateCommitOnBranchInput!) {
     createCommitOnBranch(input: $input) {
@@ -54,6 +67,7 @@ const CREATE_COMMIT = `
 export const GQL = {
   USER_INFORMATION,
   REPOSITORY_LAST_COMMIT_ID,
+  GET_FILE_CONTENT,
   CREATE_COMMIT,
 };
 
@@ -86,6 +100,24 @@ type GQLInterface = {
       Params: {
         owner: string;
         name: string;
+      };
+      Data: {
+        repository: {
+          defaultBranchRef: {
+            name: string;
+            target: {
+              oid: string;
+            };
+          };
+        };
+      };
+    };
+    GET_FILE_CONTENT: {
+      Query: typeof GET_FILE_CONTENT;
+      Params: {
+        owner: string;
+        name: string;
+        expression: string;
       };
       Data: {
         repository: {

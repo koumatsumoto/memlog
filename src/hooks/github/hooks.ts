@@ -7,10 +7,10 @@ import { GQL, GQLMutationData, GQLMutationParams, GQLMutations, GQLQueries, GQLQ
 
 // ファイルを一覧表示しやすいようにフォルダの階層は1つとする
 const memlogStorageFileName = (time = new Date()) => format(time, `yyyyMM/${time.getTime()}`);
-const getAuthHeader = () => ({ authorization: `Bearer ${storage.loadAccessToken()}` });
+export const getAuthHeader = () => ({ authorization: `Bearer ${storage.loadAccessToken()}` });
 
 type UseQueryResult<Data> = { loading: true; data: undefined; error: undefined } | { loading: false; data: Data; error: undefined } | { loading: false; data: undefined; error: Error };
-export const useQuery = <T extends GQLQueries>(query: T, params: GQLQueryParams<T>) => {
+export const useQuery = <T extends GQLQueries>(query: T, params: GQLQueryParams<T>, options: { suspense?: boolean } = {}) => {
   const [result, setResult] = useState<UseQueryResult<GQLQueryData<T>>>({ loading: true, data: undefined, error: undefined });
 
   useEffect(() => {
@@ -63,4 +63,10 @@ export const useCreateCommitMutation = () => {
   );
 
   return [fn, result] as const;
+};
+
+export const useUserInformation = () => {
+  const { loading, error, data } = useQuery(GQL.USER_INFORMATION, { repositoryName: 'memlog-storage' });
+
+  useQuery(GQL.GET_FILE_CONTENT, { owner: 'kouMatsumoto', name: 'memlog-storage', expression: 'main:202205/1652463421522' });
 };

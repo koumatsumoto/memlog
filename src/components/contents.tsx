@@ -1,11 +1,11 @@
 import { Avatar, Button, Code, Container, HStack, Text, VStack } from '@chakra-ui/react';
+import { Waveform } from '@uiball/loaders';
 import React from 'react';
-import { useCreateCommitMutation, useLogin, useQuery } from '../hooks';
-import { GQL } from '../hooks/github/gql';
+import { useCreateCommitMutation, useLogin } from '../hooks';
+import { userinfoLoader } from '../hooks/github/loader';
 import { prettyJson } from '../utils';
-import { Loading } from './Loading';
 
-const DataViewer = ({ data }: { data: unknown }) => {
+const DataView = ({ data }: { data: unknown }) => {
   return (
     <Container>
       <Code
@@ -29,40 +29,34 @@ export const CreateCommitButton = () => {
   const onClick = () => createCommit({ owner: 'kouMatsumoto', repositoryName: 'memlog-storage', contents: '日本語でテスト' });
 
   if (error) {
-    return <DataViewer data={error} />;
+    return <DataView data={error} />;
   } else if (loading) {
-    return <Loading />;
+    return <LoadingView />;
   } else {
     return (
       <VStack spacing={4}>
         <Button onClick={onClick} colorScheme="green" size="sm">
           Create Commit
         </Button>
-        {data && <DataViewer data={data} />}
-        {error && <DataViewer data={error} />}
+        {data && <DataView data={data} />}
+        {error && <DataView data={error} />}
       </VStack>
     );
   }
 };
 
 export const LoggedInView = () => {
-  const { loading, error, data } = useQuery(GQL.USER_INFORMATION, { repositoryName: 'memlog-storage' });
+  const data = userinfoLoader.load();
 
-  if (error) {
-    return <DataViewer data={error} />;
-  } else if (loading) {
-    return <Loading />;
-  } else {
-    return (
-      <VStack spacing={8}>
-        <HStack>
-          <Avatar name={data.viewer.name} src={data.viewer.avatarUrl} />
-          <Text>{data.viewer.name}</Text>
-        </HStack>
-        <CreateCommitButton />
-      </VStack>
-    );
-  }
+  return (
+    <VStack spacing={8}>
+      <HStack>
+        <Avatar name={data.viewer.name} src={data.viewer.avatarUrl} />
+        <Text>{data.viewer.name}</Text>
+      </HStack>
+      <CreateCommitButton />
+    </VStack>
+  );
 };
 
 export const NotLoggedInView = () => {
@@ -86,5 +80,10 @@ export const NotLoggedInView = () => {
 };
 
 export const LoadingView = () => {
-  return <Loading />;
+  return (
+    <VStack>
+      <Text>Loading</Text>
+      <Waveform color="white" />
+    </VStack>
+  );
 };
