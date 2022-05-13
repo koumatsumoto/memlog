@@ -4,26 +4,32 @@ import { useCreateCommitMutation, userinfoLoader } from '../../hooks';
 import { DataView } from './utils';
 
 export const LoggedInView = () => {
-  const data = userinfoLoader.load();
-
   return (
-    <VStack spacing={8}>
-      <HStack>
-        <Avatar name={data.viewer.name} src={data.viewer.avatarUrl} />
-        <Text>{data.viewer.name}</Text>
-      </HStack>
+    <VStack spacing={6}>
+      <AccountInformation />
       <CreateCommitButton />
     </VStack>
   );
 };
 
-export const CreateCommitButton = () => {
+const AccountInformation = () => {
+  const data = userinfoLoader.load();
+
+  return (
+    <HStack>
+      <Avatar name={data.viewer.name} src={data.viewer.avatarUrl} />
+      <Text>{data.viewer.name}</Text>
+    </HStack>
+  );
+};
+
+const CreateCommitButton = () => {
   const [createCommit, { data, loading, error }] = useCreateCommitMutation();
-  const onClick = () => createCommit({ owner: 'kouMatsumoto', repositoryName: 'memlog-storage', contents: '日本語でテスト' });
+  const fn = () => createCommit({ owner: 'kouMatsumoto', repositoryName: 'memlog-storage', contents: '日本語でテスト' });
 
   return (
     <VStack spacing={4}>
-      <Button isLoading={loading} onClick={onClick} colorScheme="green" size="sm">
+      <Button isLoading={loading} onClick={fn} colorScheme="green" size="sm">
         Commit
       </Button>
       {data && <DataView data={data} />}
