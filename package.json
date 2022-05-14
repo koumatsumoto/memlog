@@ -7,11 +7,11 @@
     "npm": ">= 8.6.0"
   },
   "scripts": {
-    "build": "export REACT_APP_VERSION=$(git rev-parse HEAD); PUBLIC_URL=/memlog npx react-scripts build",
-    "dev": "export REACT_APP_VERSION=$(git rev-parse HEAD); npx react-scripts start",
+    "build": "NODE_ENV=production REACT_APP_VERSION=$(git rev-parse HEAD) PUBLIC_URL=/memlog npx react-scripts build",
+    "dev": "REACT_APP_VERSION=$(git rev-parse HEAD) npx react-scripts start",
     "lint": "prettier --ignore-path .gitignore --write . && eslint --fix --ext ts,tsx ./src",
-    "start": "export REACT_APP_VERSION=$(git rev-parse HEAD); npx react-scripts start",
-    "test": "export REACT_APP_VERSION=$(git rev-parse HEAD); npx react-scripts test",
+    "start": "REACT_APP_VERSION=$(git rev-parse HEAD) npx react-scripts start",
+    "test": "REACT_APP_VERSION=$(git rev-parse HEAD) npx react-scripts test",
     "prepare": "husky install"
   },
   "dependencies": {
