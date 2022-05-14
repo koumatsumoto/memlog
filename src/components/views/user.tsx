@@ -1,9 +1,11 @@
 import { TimeIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Container, HStack, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { match, P } from 'ts-pattern';
 import { useCreateCommitMutation, userFileHistoryQuery, userInformationQuery } from '../../hooks';
-import { DataView } from './utils';
+import { noop } from '../../utils';
+import { toast } from '../Toast';
 
 export const LoggedInView = () => {
   return (
@@ -62,18 +64,26 @@ const CommitHistoryComponent = () => {
 };
 
 const CreateCommitButton = () => {
-  const [createCommit, { data, loading, error }] = useCreateCommitMutation();
+  const [createCommit, result] = useCreateCommitMutation();
   const fn = () => createCommit({ owner: 'kouMatsumoto', repositoryName: 'memlog-storage', contents: '日本語でテスト' });
+
+  useEffect(() => {
+    match(result)
+      .with({ loading: false, data: P.not(P.nullish) }, () =>
+        toast({ title: 'OK', description: `commit created successfully, #${result.data?.createCommitOnBranch.commit.oid}`, status: 'info' }),
+      )
+      .with({ loading: false, error: P.not(P.nullish) }, () =>
+        toast({ title: 'Error', description: `commit failed with an error, ${result.error?.message ?? String(result.error)}`, status: 'error' }),
+      )
+      .otherwise(noop);
+  }, [result]);
 
   return (
     <Container padding={0}>
       <VStack spacing={4}>
-        <Button isLoading={loading} onClick={fn} colorScheme="green" size="sm">
+        <Button isLoading={result.loading} onClick={fn} colorScheme="green" size="sm">
           Commit
         </Button>
-
-        <>{data && <DataView data={data} />}</>
-        <>{error && <DataView data={error} />}</>
       </VStack>
     </Container>
   );

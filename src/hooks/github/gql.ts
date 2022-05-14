@@ -58,7 +58,7 @@ const CREATE_COMMIT = `
   mutation CreateCommit($input: CreateCommitOnBranchInput!) {
     createCommitOnBranch(input: $input) {
       commit {
-        url
+        oid
       }
     }
   }
@@ -141,12 +141,9 @@ type GQLInterface = {
         fileChanges: { additions: [{ path: string; contents: string }] };
       };
       Data: {
-        repository: {
-          defaultBranchRef: {
-            name: string;
-            target: {
-              oid: string;
-            };
+        createCommitOnBranch: {
+          commit: {
+            oid: string;
           };
         };
       };

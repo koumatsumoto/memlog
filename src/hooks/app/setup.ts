@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
+import { toast } from '../../components/Toast';
 import { notask } from '../../utils';
 import { replaceLocationWithTopPage } from '../login';
 import { state } from './state';
@@ -30,17 +31,12 @@ export const useApplicationSetup = () => {
   useEffect(() => {
     match(appOpenedBy)
       .with('StartedWithSharedTargetAPI', async () => {
-        alert(`Page opened by Web Share API, title=${params.title}, text=${params.text}`);
+        toast({ title: 'App opened by Web Share Target API ', description: `title: ${params.title}\ntext: ${params.text}`, status: 'info' });
         replaceLocationWithTopPage();
       })
       .otherwise(notask)
-      .then(() => {
-        console.log('[app] setup completed');
-      })
-      .catch((e) => {
-        console.error(e);
-        alert(`Failed to application setup, ${e?.message ?? String(e)}`);
-      });
+      .then(() => console.log('[app] setup completed'))
+      .catch((e) => toast({ title: 'Error', description: `Failed to application setup, ${e?.message ?? String(e)}`, status: 'error' }));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {

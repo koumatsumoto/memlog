@@ -5,6 +5,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { match } from 'ts-pattern';
 import { logout } from '../hooks';
 import { identity, isError, isString, notask, prettyJson, printError } from '../utils';
+import { toast } from './Toast';
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
   const print = () => match(error).when(isString, identity).when(isError, printError).otherwise(prettyJson);
@@ -14,7 +15,7 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
     const errorType = match(error)
       .with({ name: 'HttpError', response: { data: { message: 'Bad credentials' } } }, () => 'OAuthAccessTokenMaybeExpiredOrRevoked' as const)
       .otherwise(() => 'UnknownApplicationError');
-    console.error(`[app]: ErrorType: ${errorType}`);
+    toast({ title: 'Error', description: errorType, status: 'error' });
 
     match(errorType).with('OAuthAccessTokenMaybeExpiredOrRevoked', logout).otherwise(notask);
   }, [error]);
