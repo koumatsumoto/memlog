@@ -1,7 +1,9 @@
 import { format } from 'date-fns';
-import { toBase64 } from '../../utils';
+import ja from 'date-fns/locale/ja';
+import { selector } from 'recoil';
+import { isNotNull, toBase64 } from '../../utils';
 import { storage } from '../storage';
-import { toSuspenseLoader, useLoadingState } from '../utils';
+import { useLoadingState } from '../utils';
 import { GQL, mutation, query } from './gql';
 
 // ファイルを一覧表示しやすいようにフォルダの階層は1つとする
@@ -22,4 +24,29 @@ export const useCreateCommitMutation = () => {
   });
 };
 
-export const userinfoLoader = toSuspenseLoader(query(GQL.USER_INFORMATION, { repositoryName: 'memlog-storage', headers: getAuthHeader() }));
+export const userInformationQuery = selector({
+  key: 'userInformationQuery',
+  get: async () => await query(GQL.USER_INFORMATION, { repositoryName: 'memlog-storage', headers: getAuthHeader() }),
+});
+
+export const userFileHistoryQuery = selector({
+  key: 'userFileHistoryQuery',
+  get: async ({ get }) => {
+    const info = get(userInformationQuery);
+    const data = await Promise.all(
+      info.viewer.repository.defaultBranchRef.target.history.nodes.map(async ({ message: filepath }) => {
+        const result = await query(GQL.GET_FILE_CONTENT, { owner: info.viewer.login, name: 'memlog-storage', expression: `main:${filepath}`, headers: getAuthHeader() });
+        return result.repository.object
+          ? {
+              filepath,
+              content: result.repository.object.text,
+              dateText: format(new Date(), 'yyyy/MM/dd HH時mm分', { locale: ja }),
+              createdAt: Number(filepath.split('/').at(1) ?? NaN),
+            }
+          : null;
+      }),
+    );
+
+    return data.filter(isNotNull);
+  },
+});

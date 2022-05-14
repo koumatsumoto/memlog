@@ -1,4 +1,4 @@
-import { Container } from '@chakra-ui/react';
+import { Container, Flex } from '@chakra-ui/react';
 import React, { FunctionComponent, PropsWithChildren } from 'react';
 
 export const FullScreenLayout: FunctionComponent<PropsWithChildren<{}>> = ({ children }) => {
@@ -25,8 +25,8 @@ export const FullScreenLayout: FunctionComponent<PropsWithChildren<{}>> = ({ chi
 
 export const MainContentsLayout: FunctionComponent<PropsWithChildren<{}>> = ({ children }) => {
   return (
-    <Container centerContent sx={{ padding: '16px' }}>
+    <Flex align="center" justify="start" direction="column" padding="4px 24px 16px" width="full">
       {children}
-    </Container>
+    </Flex>
   );
 };

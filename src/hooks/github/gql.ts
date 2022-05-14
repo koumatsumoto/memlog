@@ -42,7 +42,7 @@ const REPOSITORY_LAST_COMMIT_ID = `
 ` as const;
 
 const GET_FILE_CONTENT = `
-  query GetRepositoryFile($owner: String!, $name: String!, $expression: String!) {
+  query GetFileContent($owner: String!, $name: String!, $expression: String!) {
     repository(owner: $owner, name: $name) {
       object(expression: $expression) {
         ... on Blob {
@@ -88,7 +88,9 @@ type GQLInterface = {
             defaultBranchRef: {
               name: string;
               target: {
-                history: { message: string }[];
+                history: {
+                  nodes: { message: string }[];
+                };
               };
             };
           };
@@ -121,12 +123,10 @@ type GQLInterface = {
       };
       Data: {
         repository: {
-          defaultBranchRef: {
-            name: string;
-            target: {
-              oid: string;
-            };
-          };
+          object: {
+            byteSize: string;
+            text: string;
+          } | null;
         };
       };
     };

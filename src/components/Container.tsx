@@ -1,10 +1,12 @@
 import { Button, Code, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
 import { PropsWithChildren, Suspense } from 'react';
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
-import { prettyJson } from '../utils';
+import { ErrorBoundary } from 'react-error-boundary';
+import { match } from 'ts-pattern';
+import { identity, isError, isString, prettyJson, printError } from '../utils';
 
-const ErrorFallback = ({ error }: FallbackProps & { error: unknown }) => {
+const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
+  const print = () => match(error).when(isString, identity).when(isError, printError).otherwise(prettyJson);
   const reset = () => window.location.reload();
 
   return (
@@ -18,6 +20,7 @@ const ErrorFallback = ({ error }: FallbackProps & { error: unknown }) => {
 
       <Code
         sx={{
+          fontSize: '13px',
           whiteSpace: 'pre',
           maxWidth: '100%',
           maxHeight: '100%',
@@ -26,7 +29,7 @@ const ErrorFallback = ({ error }: FallbackProps & { error: unknown }) => {
           '&::-webkit-scrollbar': { display: 'none' },
         }}
       >
-        {prettyJson(error)}
+        {print()}
       </Code>
     </Container>
   );
