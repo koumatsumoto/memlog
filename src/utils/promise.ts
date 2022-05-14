@@ -1,5 +1,5 @@
 export const logging = <T>(message = 'logging: ') => {
-  return <T>(value: T) => {
+  return (value: T) => {
     console.log(message, value);
 
     return value;
