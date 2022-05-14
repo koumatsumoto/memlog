@@ -32,8 +32,9 @@ const CreateCommitButton = () => {
       <Button isLoading={loading} onClick={fn} colorScheme="green" size="sm">
         Commit
       </Button>
-      {data && <DataView data={data} />}
-      {error && <DataView data={error} />}
+
+      <>{data && <DataView data={data} />}</>
+      <>{error && <DataView data={error} />}</>
     </VStack>
   );
 };
