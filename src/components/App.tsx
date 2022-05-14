@@ -11,8 +11,8 @@ function App() {
   const Contents = () =>
     match(settings)
       .with({ appOpenedBy: 'StartedWithOAuthRedirect' }, LoadingView)
-      .with({ hasAccessToken: true }, LoggedInView)
       .with({ hasAccessToken: false }, NotLoggedInView)
+      .with({ hasAccessToken: true }, LoggedInView)
       .exhaustive();
 
   return (

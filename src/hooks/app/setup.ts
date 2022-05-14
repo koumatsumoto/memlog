@@ -1,14 +1,9 @@
 import { useEffect } from 'react';
-import { atom, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
-import { getUrlQueryParams, notask } from '../../utils';
-import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage } from '../login';
-import { storage } from '../storage';
-
-const state = {
-  urlQueryParams: atom({ key: 'urlQueryParams', default: getUrlQueryParams() }),
-  githubAccessToken: atom({ key: 'githubAccessToken', default: storage.loadAccessToken() }),
-} as const;
+import { notask } from '../../utils';
+import { replaceLocationWithTopPage } from '../login';
+import { state } from './state';
 
 export const useApplicationSetup = () => {
   /**
@@ -23,6 +18,9 @@ export const useApplicationSetup = () => {
     .with({ title: P.string, text: P.string }, () => 'StartedWithSharedTargetAPI' as const)
     .otherwise(() => 'StartedWithUser' as const);
 
+  const [, startGitHubAuth] = useRecoilState(state.gitHubAuthenticationState(params));
+  startGitHubAuth(params);
+
   /**
    * 以前にOAuth認証が完了してアクセスキーを発行している場合はStorageにキャッシュを保存しているため、それを確認する
    *   - TODO: validation
@@ -31,10 +29,6 @@ export const useApplicationSetup = () => {
 
   useEffect(() => {
     match(appOpenedBy)
-      .with('StartedWithOAuthRedirect', async () => {
-        await requestAccessTokenAndSaveToStorage(params.code!);
-        replaceLocationWithTopPage();
-      })
       .with('StartedWithSharedTargetAPI', async () => {
         alert(`Page opened by Web Share API, title=${params.title}, text=${params.text}`);
         replaceLocationWithTopPage();
