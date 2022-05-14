@@ -11,7 +11,7 @@ export const useLoadingState = <Data, Params>(fn: (params: Params) => Promise<Da
           .then((data) => setState({ loading: false, data, error: undefined }))
           .catch((error) => setState({ loading: false, data: undefined, error: error instanceof Error ? error : new Error(error) }));
       },
-      [setState],
+      [setState, fn],
     ),
     state,
   ] as const;
