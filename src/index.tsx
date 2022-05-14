@@ -7,8 +7,7 @@ import { theme } from './components/theme';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-const container = document.getElementById('root');
-const root = createRoot(container!);
+const root = createRoot(document.getElementById('root')!);
 root.render(
   <React.StrictMode>
     <RecoilRoot>
