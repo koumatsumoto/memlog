@@ -34,7 +34,7 @@ const CommitHistory = () => {
   return (
     <List spacing={3} padding="16px 12px" borderRadius={2} background="beige" color="#333333" fontSize="12px" width="min(88%, 70vw)">
       {files.map((data) => (
-        <ListItem>
+        <ListItem key={data.filepath}>
           <HStack spacing={0} align="start">
             <Box>
               <ListIcon as={TimeIcon} color="green.500" />
