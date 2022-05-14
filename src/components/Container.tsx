@@ -1,13 +1,23 @@
 import { Button, Code, Container, HStack, Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
-import { PropsWithChildren, Suspense } from 'react';
+import { PropsWithChildren, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { match } from 'ts-pattern';
-import { identity, isError, isString, prettyJson, printError } from '../utils';
+import { logout } from '../hooks';
+import { identity, isError, isString, notask, prettyJson, printError } from '../utils';
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
   const print = () => match(error).when(isString, identity).when(isError, printError).otherwise(prettyJson);
   const reset = () => window.location.reload();
+
+  useEffect(() => {
+    const errorType = match(error)
+      .with({ name: 'HttpError', response: { data: { message: 'Bad credentials' } } }, () => 'OAuthAccessTokenMaybeExpiredOrRevoked' as const)
+      .otherwise(() => 'UnknownApplicationError');
+    console.error(`[app]: ErrorType: ${errorType}`);
+
+    match(errorType).with('OAuthAccessTokenMaybeExpiredOrRevoked', logout).otherwise(notask);
+  }, [error]);
 
   return (
     <Container>

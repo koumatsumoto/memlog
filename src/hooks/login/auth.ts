@@ -16,10 +16,6 @@ export const requestAccessTokenAndSaveToStorage = async (code: string) => {
   storage.saveAccessToken(data.access_token);
 };
 
-const requestLogout = async ({ token }: { token: string }): Promise<{}> => {
-  return await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token, isDev: ENV.isLocalhost }) }).then((res) => res.json());
-};
-
 const redirectToGitHubLoginPage = () => {
   window.location.href = `https://github.com/login/oauth/authorize?${new URLSearchParams({
     client_id: ENV.oauthClientId,
@@ -38,14 +34,24 @@ const githubAccessTokenState = atom({ key: 'githubAccessTokenState', default: st
 export const useGitHubAuthCode = () => useRecoilValue(githubAuthCodeState);
 export const useGitHubAccessToken = () => useRecoilValue(githubAccessTokenState);
 
+export const logout = async () => {
+  const token = storage.loadAccessToken();
+  storage.resetAll();
+
+  if (token) {
+    await requestLogout({ token });
+  }
+
+  replaceLocationWithTopPage();
+};
+
+const requestLogout = async ({ token }: { token: string }): Promise<{}> =>
+  await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token, isDev: ENV.isLocalhost }) }).then((res) => res.json());
+
 export const useLogin = () => {
   const accessToken = useGitHubAccessToken();
   const loginWithRedirect = redirectToGitHubLoginPage;
-  const logoutWithReload = useCallback(async () => {
-    await requestLogout({ token: accessToken ?? '' });
-    storage.resetAll();
-    replaceLocationWithTopPage();
-  }, [accessToken]);
+  const logoutWithReload = useCallback(logout, [accessToken]);
 
   return {
     canLogout: Boolean(accessToken),
