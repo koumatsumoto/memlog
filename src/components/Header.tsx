@@ -21,7 +21,9 @@ export const AppHeader: FunctionComponent = () => {
         memlog<small>@{ENV.version}</small>
       </Heading>
 
-      {canLogout && <IconButton onClick={logoutWithReload} size="xs" colorScheme="white" aria-label="Logout" icon={<CloseIcon />} sx={{ position: 'absolute', right: '8px', top: '12px' }} />}
+      {canLogout && (
+        <IconButton onClick={logoutWithReload} size="xs" colorScheme="white" aria-label="Logout" icon={<CloseIcon />} sx={{ position: 'absolute', right: '8px', top: '12px' }} />
+      )}
     </Container>
   );
 };

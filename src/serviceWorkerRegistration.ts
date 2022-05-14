@@ -26,7 +26,9 @@ export function register(config?: Config) {
   if (ENV.isProduction) {
     const publicUrl = new URL(ENV.publicURL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
-      alert("Our service worker won't work if PUBLIC_URL is on a different origin from what our page is served on. This might happen if a CDN is used to serve assets; see https://github.com/facebook/create-react-app/issues/2374");
+      alert(
+        "Our service worker won't work if PUBLIC_URL is on a different origin from what our page is served on. This might happen if a CDN is used to serve assets; see https://github.com/facebook/create-react-app/issues/2374",
+      );
       return;
     }
 

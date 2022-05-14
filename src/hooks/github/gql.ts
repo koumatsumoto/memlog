@@ -170,5 +170,9 @@ export type GQLMutationData<Query extends string> = ValueOf<{
   [K in keyof GQLInterface['Mutation']]: Query extends GQLInterface['Mutation'][K]['Mutation'] ? GQLInterface['Mutation'][K]['Data'] : never;
 }>;
 
-export const query = <Query extends GQLQueries, Params = GQLQueryParams<Query>>(gql: Query, params: Params & { headers: Record<string, string> }): Promise<GQLQueryData<Query>> => graphql(gql, params);
-export const mutation = <Mutation extends GQLMutations, Params = GQLMutationParams<Mutation>>(gql: Mutation, params: Params & { headers: Record<string, string> }): Promise<GQLMutationData<Mutation>> => graphql(gql, params);
+export const query = <Query extends GQLQueries, Params = GQLQueryParams<Query>>(gql: Query, params: Params & { headers: Record<string, string> }): Promise<GQLQueryData<Query>> =>
+  graphql(gql, params);
+export const mutation = <Mutation extends GQLMutations, Params = GQLMutationParams<Mutation>>(
+  gql: Mutation,
+  params: Params & { headers: Record<string, string> },
+): Promise<GQLMutationData<Mutation>> => graphql(gql, params);

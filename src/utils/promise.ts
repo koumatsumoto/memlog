@@ -13,3 +13,5 @@ export const loggingAndThrow = <T>(message = 'logging: ') => {
     return value;
   };
 };
+
+export const notask = async () => {};

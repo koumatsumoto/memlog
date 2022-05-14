@@ -1,7 +1,13 @@
 import { useCallback, useState } from 'react';
 
 export const useLoadingState = <Data, Params>(fn: (params: Params) => Promise<Data>) => {
-  const [state, setState] = useState<{ loading: boolean; data: undefined; error: undefined } | { loading: false; data: Data; error: undefined } | { loading: false; data: undefined; error: Error }>({ loading: false, data: undefined, error: undefined });
+  const [state, setState] = useState<
+    { loading: boolean; data: undefined; error: undefined } | { loading: false; data: Data; error: undefined } | { loading: false; data: undefined; error: Error }
+  >({
+    loading: false,
+    data: undefined,
+    error: undefined,
+  });
 
   return [
     useCallback(
