@@ -1,3 +1,4 @@
+import { match } from 'ts-pattern';
 import { useApplicationBootstrap } from '../hooks';
 import { SuspenseContainer } from './Container';
 import { AppHeader } from './Header';
@@ -7,26 +8,20 @@ import { LoadingView, LoggedInView, NotLoggedInView } from './views';
 function App() {
   const { statusType } = useApplicationBootstrap();
 
-  const Contents = () => {
-    switch (statusType) {
-      case 'NotLoggedIn':
-        return <NotLoggedInView />;
-      case 'GettingAccessToken':
-        return <LoadingView />;
-      case 'LoggedIn':
-        return (
-          <SuspenseContainer>
-            <LoggedInView />
-          </SuspenseContainer>
-        );
-    }
-  };
+  const Contents = () =>
+    match(statusType)
+      .with('NotLoggedIn', () => <NotLoggedInView />)
+      .with('GettingAccessToken', () => <LoadingView />)
+      .with('LoggedIn', () => <LoggedInView />)
+      .exhaustive();
 
   return (
     <FullScreenLayout>
       <AppHeader />
       <MainContentsLayout>
-        <Contents />
+        <SuspenseContainer>
+          <Contents />
+        </SuspenseContainer>
       </MainContentsLayout>
     </FullScreenLayout>
   );
