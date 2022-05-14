@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/memlog/static/js/main.1435749a.js",
+    "main.js": "/memlog/static/js/main.28ef3860.js",
     "static/js/787.30526a74.chunk.js": "/memlog/static/js/787.30526a74.chunk.js",
     "service-worker.js": "/memlog/service-worker.js",
     "index.html": "/memlog/index.html",
-    "main.1435749a.js.map": "/memlog/static/js/main.1435749a.js.map",
+    "main.28ef3860.js.map": "/memlog/static/js/main.28ef3860.js.map",
     "787.30526a74.chunk.js.map": "/memlog/static/js/787.30526a74.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.1435749a.js"
+    "static/js/main.28ef3860.js"
   ]
 }
