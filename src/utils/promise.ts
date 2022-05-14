@@ -1,13 +1,13 @@
-export const logging = (message = 'logging: ') => {
-  return (value: unknown) => {
+export const logging = <T>(message = 'logging: ') => {
+  return <T>(value: T) => {
     console.log(message, value);
 
     return value;
   };
 };
 
-export const loggingAndThrow = (message = 'logging: ') => {
-  return (value: unknown) => {
+export const loggingAndThrow = <T>(message = 'logging: ') => {
+  return (value: T) => {
     console.error(message, value);
 
     return value;
