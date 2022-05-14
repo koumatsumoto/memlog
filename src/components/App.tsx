@@ -1,8 +1,10 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { match } from 'ts-pattern';
 import { useApplicationSetup } from '../hooks';
 import { SuspenseContainer } from './Container';
 import { AppHeader } from './Header';
 import { FullScreenLayout, MainContentsLayout } from './Layout';
+import { theme } from './theme';
 import { LoadingView, LoggedInView, NotLoggedInView } from './views';
 
 function App() {
@@ -16,14 +18,16 @@ function App() {
       .exhaustive();
 
   return (
-    <FullScreenLayout>
-      <AppHeader />
-      <MainContentsLayout>
-        <SuspenseContainer>
-          <Contents />
-        </SuspenseContainer>
-      </MainContentsLayout>
-    </FullScreenLayout>
+    <ChakraProvider theme={theme}>
+      <FullScreenLayout>
+        <AppHeader />
+        <MainContentsLayout>
+          <SuspenseContainer>
+            <Contents />
+          </SuspenseContainer>
+        </MainContentsLayout>
+      </FullScreenLayout>
+    </ChakraProvider>
   );
 }
 
