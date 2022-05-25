@@ -1,5 +1,5 @@
 import { TimeIcon } from '@chakra-ui/icons';
-import { Avatar, Box, Button, Container, HStack, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react';
+import { Avatar, Box, Button, Container, Grid, GridItem, HStack, List, ListIcon, ListItem, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
@@ -9,13 +9,30 @@ import { toast } from '../Toast';
 
 export const LoggedInView = () => {
   return (
-    <Container padding={0}>
-      <VStack spacing={6}>
-        <AccountInformation />
-        <CreateCommitButton />
-        <CommitHistoryComponent />
-      </VStack>
-    </Container>
+    <Tabs boxSize="full" colorScheme="green">
+      <Grid boxSize="full" templateRows="1fr auto">
+        <GridItem overflow="auto">
+          <TabPanels>
+            <TabPanel>
+              <VStack spacing={6}>
+                <AccountInformation />
+                <CreateCommitButton />
+                <CommitHistoryComponent />
+              </VStack>
+            </TabPanel>
+            <TabPanel></TabPanel>
+            <TabPanel></TabPanel>
+          </TabPanels>
+        </GridItem>
+        <GridItem>
+          <TabList justifyContent="end" borderColor="bg-dark">
+            <Tab>Home</Tab>
+            <Tab>Tab B</Tab>
+            <Tab>Tab C</Tab>
+          </TabList>
+        </GridItem>
+      </Grid>
+    </Tabs>
   );
 };
 
