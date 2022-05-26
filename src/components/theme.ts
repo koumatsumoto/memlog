@@ -42,7 +42,7 @@ export const theme = extendTheme({
       baseStyle: {
         tab: {
           _active: {
-            background: 'inherit',
+            background: 'transparent',
           },
           _focus: {
             boxShadow: 'none',
