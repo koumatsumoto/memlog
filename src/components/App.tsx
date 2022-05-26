@@ -21,8 +21,8 @@ function App() {
   return (
     <ChakraProvider theme={theme}>
       <ToastContainer />
-      <SuspenseContainer>
-        <Container variant="outermost" centerContent bg="#282c34" color="white">
+      <Container variant="outermost" centerContent bg="#282c34" color="white">
+        <SuspenseContainer>
           <Grid templateRows="auto 1fr" boxSize="full">
             <GridItem>
               <Flex boxSize="full" justify="center">
@@ -34,9 +34,9 @@ function App() {
                 <Contents />
               </Flex>
             </GridItem>
-          </Grid>
-        </Container>
-      </SuspenseContainer>
+          </Grid>{' '}
+        </SuspenseContainer>
+      </Container>
     </ChakraProvider>
   );
 }

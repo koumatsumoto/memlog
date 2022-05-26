@@ -1,4 +1,4 @@
-import { Button, Code, Container, HStack, Text, VStack } from '@chakra-ui/react';
+import { Button, Code, Container, Flex, HStack, Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
 import { PropsWithChildren, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -48,10 +48,12 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
 
 const LoadingFallback = () => {
   return (
-    <VStack>
-      <Text>Loading</Text>
-      <Waveform color="white" />
-    </VStack>
+    <Flex boxSize="full" align="center" justify="center">
+      <VStack>
+        <Text>Loading</Text>
+        <Waveform color="white" />
+      </VStack>
+    </Flex>
   );
 };
 
