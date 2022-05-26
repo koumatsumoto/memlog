@@ -10,7 +10,7 @@ import { DeveloperTab } from './DeveloperTab';
 
 export const LoggedInView = () => {
   return (
-    <Tabs boxSize="full" colorScheme="green">
+    <Tabs boxSize="full" colorScheme="green" isLazy={true}>
       <Grid boxSize="full" templateRows="1fr auto">
         <GridItem overflow="auto">
           <TabPanels>

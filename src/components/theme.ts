@@ -37,5 +37,18 @@ export const theme = extendTheme({
         },
       },
     },
+    Tabs: {
+      parts: ['tab'],
+      baseStyle: {
+        tab: {
+          _active: {
+            background: 'inherit',
+          },
+          _focus: {
+            boxShadow: 'none',
+          },
+        },
+      },
+    },
   },
 });
