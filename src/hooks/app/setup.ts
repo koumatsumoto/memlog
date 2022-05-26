@@ -3,7 +3,6 @@ import { useRecoilState } from 'recoil';
 import { match } from 'ts-pattern';
 import { toast } from '../../components/Toast';
 import { notask } from '../../utils';
-import { replaceLocationWithTopPage } from '../login';
 import { state, useAppInitialState } from './state';
 
 export const useApplicationSetup = () => {
@@ -16,7 +15,6 @@ export const useApplicationSetup = () => {
     match(appOpenedBy)
       .with('StartedWithSharedTargetAPI', async () => {
         toast({ title: 'App opened by Web Share Target API ', description: `title: ${urlParams.title}\ntext: ${urlParams.text}`, status: 'info' });
-        replaceLocationWithTopPage();
       })
       .otherwise(notask)
       .then(() => console.log('[app] setup completed'))
