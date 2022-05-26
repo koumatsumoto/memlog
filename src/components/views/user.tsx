@@ -6,6 +6,7 @@ import { match, P } from 'ts-pattern';
 import { useCreateCommitMutation, userFileHistoryQuery, userInformationQuery } from '../../hooks';
 import { noop } from '../../utils';
 import { toast } from '../Toast';
+import { DeveloperTab } from './DeveloperTab';
 
 export const LoggedInView = () => {
   return (
@@ -20,15 +21,15 @@ export const LoggedInView = () => {
                 <CommitHistoryComponent />
               </VStack>
             </TabPanel>
-            <TabPanel></TabPanel>
-            <TabPanel></TabPanel>
+            <TabPanel>
+              <DeveloperTab />
+            </TabPanel>
           </TabPanels>
         </GridItem>
         <GridItem>
           <TabList justifyContent="end" borderColor="bg-dark">
             <Tab>Home</Tab>
-            <Tab>Tab B</Tab>
-            <Tab>Tab C</Tab>
+            <Tab>Developer</Tab>
           </TabList>
         </GridItem>
       </Grid>
