@@ -1,6 +1,5 @@
 import { CloseIcon } from '@chakra-ui/icons';
-import { HStack, Heading, IconButton } from '@chakra-ui/react';
-import { format } from 'date-fns';
+import { Heading, HStack, IconButton } from '@chakra-ui/react';
 import React, { FunctionComponent } from 'react';
 import { ENV } from '../environments';
 import { useLogin } from '../hooks';
@@ -12,9 +11,7 @@ export const AppHeader: FunctionComponent = () => {
     <HStack width="full" height="headerHeight" justify="center" position="relative">
       <Heading as="h1" sx={{ fontSize: '16px' }}>
         memlog
-        <small>
-          @{ENV.version}, {format(new Date(ENV.buildTimestamp), 'yyyy-MM-dd HH:mm:ss')}
-        </small>
+        <small>@{ENV.version}</small>
       </Heading>
 
       <>

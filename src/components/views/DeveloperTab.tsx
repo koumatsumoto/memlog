@@ -1,4 +1,6 @@
-import { Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react';
+import { Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
+import { format } from 'date-fns';
+import { ENV } from '../../environments';
 import { useAppInitialState } from '../../hooks';
 
 export const DeveloperTab = () => {
@@ -30,6 +32,12 @@ export const DeveloperTab = () => {
           <Tr>
             <Td>Access Token</Td>
             <Td>{appInitialState.accessToken?.slice(0, 9).concat('*******')}</Td>
+          </Tr>
+          <Tr>
+            <Td>Build Version</Td>
+            <Td>
+              #{ENV.version} / {format(new Date(ENV.buildTimestamp), 'yyyy-MM-dd HH:mm:ss')}
+            </Td>
           </Tr>
         </Tbody>
         <Tfoot>
