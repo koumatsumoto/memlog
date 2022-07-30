@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { match } from 'ts-pattern';
 import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage, toast, useAppInitialState } from '../hooks';
 import { prettyJson } from '../utils';
-import { LoadingView, LoggedInView, NotLoggedInView } from './features';
+import { LoadingView } from './features/loading';
+import { LoginForm } from './features/login';
+import { MainTabContents } from './features/main';
 import { AppLayout } from './layouts/AppLayout';
 
 const App = () => {
@@ -29,8 +31,8 @@ const App = () => {
   const Contents = () =>
     match({ appOpenedBy, hasAccessToken })
       .with({ appOpenedBy: 'OAuthRedirect' }, LoadingView)
-      .with({ hasAccessToken: false }, NotLoggedInView)
-      .with({ hasAccessToken: true }, LoggedInView)
+      .with({ hasAccessToken: false }, LoginForm)
+      .with({ hasAccessToken: true }, MainTabContents)
       .exhaustive();
 
   return (
