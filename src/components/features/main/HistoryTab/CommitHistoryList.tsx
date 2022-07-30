@@ -1,5 +1,7 @@
 import { TimeIcon } from '@chakra-ui/icons';
-import { Box, Container, HStack, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react';
+import { Box, HStack, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react';
+import { format } from 'date-fns';
+import ja from 'date-fns/locale/ja';
 import { useGitHub } from '../../../../hooks';
 
 export const CommitHistoryList = () => {
@@ -14,7 +16,7 @@ export const CommitHistoryList = () => {
               <ListIcon as={TimeIcon} color="green.500" />
             </Box>
             <VStack align="start" spacing={0}>
-              <Text>{data.time}</Text>
+              <Text>{format(Number(data.time), 'MM月dd日 HH時mm分', { locale: ja })}</Text>
               <Text>{data.text}</Text>
             </VStack>
           </HStack>
