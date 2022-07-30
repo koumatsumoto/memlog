@@ -1,11 +1,9 @@
 import { Button, Textarea, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { useCommit } from '../../../../hooks';
+import { createCommit } from '../../../../hooks';
 
 export const AddCommitForm = () => {
-  const { createCommit } = useCommit();
-
   return (
     <Formik
       initialValues={{

@@ -38,22 +38,16 @@ export const useUserinfo = () => {
   return { userinfo } as const;
 };
 
-export const useCommit = () => {
-  const createCommit = (params: { text: string }) =>
-    getGitHubStorage()
-      .save(params)
-      .then(({ lastCommitId }) => {
-        notifySuccess(`commit created, #${lastCommitId.slice(0, 8)}`);
-      })
-      .catch((error) => {
-        notifyError(`commit failed with an error, ${error}`);
-        throw error;
-      });
-
-  return {
-    createCommit,
-  } as const;
-};
+export const createCommit = (params: { text: string }) =>
+  getGitHubStorage()
+    .save(params)
+    .then(({ lastCommitId }) => {
+      notifySuccess(`commit created, #${lastCommitId.slice(0, 8)}`);
+    })
+    .catch((error) => {
+      notifyError(`commit failed with an error, ${error}`);
+      throw error;
+    });
 
 export const useCommitHistory = () => {
   const { data: history, reload: reloadHistory } = useRecoilValue(userFileHistoryQuery);
