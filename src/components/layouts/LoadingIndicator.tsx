@@ -1,8 +1,7 @@
 import { Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
-import React from 'react';
 
-export const LoadingView = () => {
+export const LoadingIndicator = () => {
   return (
     <VStack>
       <Text>Loading</Text>

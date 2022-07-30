@@ -1,11 +1,11 @@
 import { ChakraProvider, Container, Flex, Grid, GridItem } from '@chakra-ui/react';
-import React, { PropsWithChildren } from 'react';
+import type { ReactElement } from 'react';
 import { ToastContainer } from '../../hooks';
-import { SuspenseContainer } from '../shared/SuspenseContainer';
+import { SuspenseContainer } from '../shared';
 import { theme } from '../theme';
 import { AppHeader } from './Header';
 
-export const AppLayout = ({ children }: PropsWithChildren<{}>) => {
+export const AppLayout = ({ contents }: { contents: ReactElement }) => {
   return (
     <ChakraProvider theme={theme}>
       <ToastContainer />
@@ -19,7 +19,7 @@ export const AppLayout = ({ children }: PropsWithChildren<{}>) => {
             </GridItem>
             <GridItem overflow="auto">
               <Flex boxSize="full" justify="center">
-                {children}
+                {contents}
               </Flex>
             </GridItem>
           </Grid>
