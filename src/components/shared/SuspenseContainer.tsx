@@ -1,11 +1,11 @@
-import { Button, Code, Container, Flex, HStack, Text, VStack } from '@chakra-ui/react';
-import { Waveform } from '@uiball/loaders';
+import { Button, Code, Container, HStack, Text } from '@chakra-ui/react';
 import { PropsWithChildren, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { identity, isError, isString } from 'remeda';
 import { match } from 'ts-pattern';
 import { logout, notifyError } from '../../hooks';
 import { prettyJson, printError } from '../../utils';
+import { LoadingView } from './LoadingView';
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
   const print = () => match(error).when(isString, identity).when(isError, printError).otherwise(prettyJson);
@@ -54,21 +54,10 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
   );
 };
 
-const LoadingFallback = () => {
-  return (
-    <Flex boxSize="full" align="center" justify="center">
-      <VStack>
-        <Text>Loading</Text>
-        <Waveform color="white" />
-      </VStack>
-    </Flex>
-  );
-};
-
 export const SuspenseContainer = ({ children }: PropsWithChildren<{}>) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense fallback={<LoadingFallback />}>{children}</Suspense>
+      <Suspense fallback={<LoadingView />}>{children}</Suspense>
     </ErrorBoundary>
   );
 };
