@@ -1,5 +1,5 @@
 import { Container, VStack } from '@chakra-ui/react';
-import { CreateCommitButton } from './CreateCommitButton';
+import { AddCommitForm } from './AddCommitForm';
 import { UserInfo } from './UserInfo';
 
 export const Home = () => {
@@ -7,7 +7,7 @@ export const Home = () => {
     <Container centerContent>
       <VStack spacing={6}>
         <UserInfo />
-        <CreateCommitButton />
+        <AddCommitForm />
       </VStack>
     </Container>
   );

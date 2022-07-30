@@ -22,6 +22,7 @@
     "@koumatsumoto/github-storage": "^0.3.0",
     "@uiball/loaders": "^1.2.6",
     "date-fns": "^2.29.1",
+    "formik": "^2.2.9",
     "framer-motion": "^6.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -41,7 +42,8 @@
     "workbox-range-requests": "^6.5.4",
     "workbox-routing": "^6.5.4",
     "workbox-strategies": "^6.5.4",
-    "workbox-streams": "^6.5.4"
+    "workbox-streams": "^6.5.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",

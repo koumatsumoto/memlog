@@ -1,7 +1,6 @@
 import GitHubStorage from '@koumatsumoto/github-storage';
 import { selector, useRecoilValue } from 'recoil';
 import { AppStorage } from './AppStorage';
-import { useLoadingState } from './utils';
 
 let githubStorage: GitHubStorage;
 const getGitHubStorage = () => {
@@ -30,14 +29,11 @@ const userFileHistoryQuery = selector({
 export const useGitHub = () => {
   const userinfo = useRecoilValue(userInformationQuery);
   const historyFiles = useRecoilValue(userFileHistoryQuery);
-  const [createCommit, createCommitResult] = useLoadingState(({ contents }: { contents: string }) => {
-    return getGitHubStorage().save({ text: contents });
-  });
+  const commit = (params: { text: string }) => getGitHubStorage().save(params);
 
   return {
     userinfo,
     historyFiles,
-    createCommit,
-    createCommitResult,
+    commit,
   } as const;
 };
