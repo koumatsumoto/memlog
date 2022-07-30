@@ -3,7 +3,7 @@ import { Avatar, Box, Button, Container, Grid, GridItem, HStack, List, ListIcon,
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
-import { useCreateCommitMutation, userFileHistoryQuery, userInformationQuery } from '../../hooks';
+import { useCreateCommit, userFileHistoryQuery, userInformationQuery } from '../../hooks';
 import { noop } from '../../utils';
 import { toast } from '../Toast';
 import { DeveloperTab } from './DeveloperTab';
@@ -42,8 +42,8 @@ const AccountInformation = () => {
 
   return (
     <HStack>
-      <Avatar name={data.viewer.name} src={data.viewer.avatarUrl} />
-      <Text>{data.viewer.name}</Text>
+      <Avatar name={data.name} src={data.avatarUrl} />
+      <Text>{data.name}</Text>
     </HStack>
   );
 };
@@ -61,15 +61,15 @@ const CommitHistoryComponent = () => {
       <>
         {showing && (
           <List spacing={3} padding="16px 12px" borderRadius={2} background="beige" color="#333333" fontSize="12px" width="min(88%, 70vw)">
-            {contents.map((data: any) => (
-              <ListItem key={data.filepath}>
+            {contents.map((data) => (
+              <ListItem key={data.time}>
                 <HStack spacing={0} align="start">
                   <Box>
                     <ListIcon as={TimeIcon} color="green.500" />
                   </Box>
                   <VStack align="start" spacing={0}>
-                    <Text>{data.dateText}</Text>
-                    <Text>{data.content}</Text>
+                    <Text>{data.time}</Text>
+                    <Text>{data.text}</Text>
                   </VStack>
                 </HStack>
               </ListItem>
@@ -82,14 +82,12 @@ const CommitHistoryComponent = () => {
 };
 
 const CreateCommitButton = () => {
-  const [createCommit, result] = useCreateCommitMutation();
-  const fn = () => createCommit({ owner: 'kouMatsumoto', repositoryName: 'memlog-storage', contents: '日本語でテスト' });
+  const [createCommit, result] = useCreateCommit();
+  const fn = () => createCommit({ contents: '日本語でテスト' });
 
   useEffect(() => {
     match(result)
-      .with({ loading: false, data: P.not(P.nullish) }, () =>
-        toast({ title: 'OK', description: `commit created successfully, #${result.data?.createCommitOnBranch.commit.oid}`, status: 'info' }),
-      )
+      .with({ loading: false, data: P.not(P.nullish) }, () => toast({ title: 'OK', description: `commit created successfully, #${result.data?.lastCommitId}`, status: 'info' }))
       .with({ loading: false, error: P.not(P.nullish) }, () =>
         toast({ title: 'Error', description: `commit failed with an error, ${result.error?.message ?? String(result.error)}`, status: 'error' }),
       )
