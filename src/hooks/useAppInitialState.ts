@@ -1,17 +1,17 @@
 import { useMemo } from 'react';
-import { atom, useRecoilValue } from 'recoil';
+import { selector, useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
 import { getUrlQueryParams } from '../utils';
 import { storage } from './storage';
 
-const startUrlState = atom({
+const startUrlState = selector({
   key: 'startUrlState',
-  default: window.location.href,
+  get: () => window.location.href,
 });
 
-const startUrlParamsState = atom({
+const startUrlParamsState = selector({
   key: 'startUrlParamsState',
-  default: getUrlQueryParams<'code' | 'title' | 'text'>(),
+  get: () => getUrlQueryParams<'code' | 'title' | 'text'>(),
 });
 
 export const useAppInitialState = () => {

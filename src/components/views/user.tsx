@@ -19,9 +19,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
-import { useCreateCommit, userFileHistoryQuery, userInformationQuery } from '../../hooks';
+import { useGitHub } from '../../hooks';
 import { toast } from '../Toast';
 import { DeveloperTab } from './DeveloperTab';
 
@@ -55,19 +54,19 @@ export const LoggedInView = () => {
 };
 
 const AccountInformation = () => {
-  const data = useRecoilValue(userInformationQuery);
+  const { userinfo } = useGitHub();
 
   return (
     <HStack>
-      <Avatar name={data.name} src={data.avatarUrl} />
-      <Text>{data.name}</Text>
+      <Avatar name={userinfo.name} src={userinfo.avatarUrl} />
+      <Text>{userinfo.name}</Text>
     </HStack>
   );
 };
 
 const CommitHistoryComponent = () => {
   const [showing, setShowing] = useState(false);
-  const contents = useRecoilValue(userFileHistoryQuery);
+  const { historyFiles } = useGitHub();
 
   return (
     <Container centerContent>
@@ -78,7 +77,7 @@ const CommitHistoryComponent = () => {
       <>
         {showing && (
           <List spacing={3} padding="16px 12px" borderRadius={2} background="beige" color="#333333" fontSize="12px" width="min(88%, 70vw)">
-            {contents.map((data) => (
+            {historyFiles.map((data) => (
               <ListItem key={data.time}>
                 <HStack spacing={0} align="start">
                   <Box>
@@ -99,28 +98,28 @@ const CommitHistoryComponent = () => {
 };
 
 const CreateCommitButton = () => {
-  const [createCommit, result] = useCreateCommit();
+  const { createCommit, createCommitResult } = useGitHub();
   const fn = () => createCommit({ contents: '日本語でテスト' });
 
   useEffect(() => {
-    match(result)
+    match(createCommitResult)
       .with({ loading: false, data: P.not(P.nullish) }, () =>
-        toast({ title: 'OK', description: `commit created successfully, #${result.data?.lastCommitId}`, status: 'info' }),
+        toast({ title: 'OK', description: `commit created successfully, #${createCommitResult.data?.lastCommitId}`, status: 'info' }),
       )
       .with({ loading: false, error: P.not(P.nullish) }, () =>
         toast({
           title: 'Error',
-          description: `commit failed with an error, ${result.error?.message ?? String(result.error)}`,
+          description: `commit failed with an error, ${createCommitResult.error?.message ?? String(createCommitResult.error)}`,
           status: 'error',
         }),
       )
       .otherwise(() => {});
-  }, [result]);
+  }, [createCommitResult]);
 
   return (
     <Container padding={0}>
       <VStack spacing={4}>
-        <Button isLoading={result.loading} onClick={fn} colorScheme="green" size="sm">
+        <Button isLoading={createCommitResult.loading} onClick={fn} colorScheme="green" size="sm">
           Commit
         </Button>
       </VStack>
