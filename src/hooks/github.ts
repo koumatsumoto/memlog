@@ -1,8 +1,8 @@
 import GitHubStorage from '@koumatsumoto/github-storage';
 import { selector } from 'recoil';
-import { toBase64 } from '../../utils';
-import { storage } from '../storage';
-import { useLoadingState } from '../utils';
+import { toBase64 } from '../utils';
+import { storage } from './storage';
+import { useLoadingState } from './utils';
 
 let githubStorage: GitHubStorage;
 const getGitHubStorage = () => {

@@ -1,9 +1,9 @@
 import { atom, atomFamily, selector, useRecoilValue } from 'recoil';
 import { isTruthy } from 'remeda';
 import { match, P } from 'ts-pattern';
-import { getUrlQueryParams, isNonEmptyString, prettyJson } from '../../utils';
-import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage } from '../login';
-import { storage } from '../storage';
+import { getUrlQueryParams, isNonEmptyString, prettyJson } from '../utils';
+import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage } from './auth';
+import { storage } from './storage';
 
 const startUrlState = atom({ key: 'startUrlState', default: window.location.href });
 const urlQueryParams = atom({ key: 'urlQueryParams', default: getUrlQueryParams() });

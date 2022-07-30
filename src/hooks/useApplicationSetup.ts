@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { match } from 'ts-pattern';
-import { toast } from '../../components/Toast';
+import { toast } from '../components/Toast';
 import { state, useAppInitialState } from './state';
 
 export const useApplicationSetup = () => {
