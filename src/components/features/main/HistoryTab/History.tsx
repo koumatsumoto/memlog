@@ -1,10 +1,13 @@
 import { Container } from '@chakra-ui/react';
+import { SuspenseContainer } from '../../../shared';
 import { CommitHistoryList } from './CommitHistoryList';
 
 export const History = () => {
   return (
-    <Container centerContent>
-      <CommitHistoryList />
-    </Container>
+    <SuspenseContainer>
+      <Container centerContent>
+        <CommitHistoryList />
+      </Container>
+    </SuspenseContainer>
   );
 };

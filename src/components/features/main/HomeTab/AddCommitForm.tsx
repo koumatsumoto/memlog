@@ -1,10 +1,10 @@
 import { Button, Textarea, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { notifySuccess, notifyError, useGitHub } from '../../../../hooks';
+import { notifySuccess, notifyError, useCommit } from '../../../../hooks';
 
 export const AddCommitForm = () => {
-  const { commit } = useGitHub();
+  const { commit } = useCommit();
 
   return (
     <Formik
@@ -28,7 +28,7 @@ export const AddCommitForm = () => {
     >
       {(props) => (
         <VStack>
-          <Textarea size="sm" {...props.getFieldProps('text')} />
+          <Textarea size="lg" h="24vh" {...props.getFieldProps('text')} />
           <Button
             colorScheme="green"
             size="sm"

@@ -21,19 +21,35 @@ const userInformationQuery = selector({
 
 const userFileHistoryQuery = selector({
   key: 'userFileHistoryQuery',
-  get: async () => {
-    return await getGitHubStorage().load({ count: 10 });
+  get: async ({ getCallback }) => {
+    const data = await getGitHubStorage().load({ count: 8 });
+    const reload = getCallback(({ refresh }) => () => {
+      refresh(userFileHistoryQuery);
+    });
+
+    return { data, reload } as const;
   },
 });
 
-export const useGitHub = () => {
+export const useUserinfo = () => {
   const userinfo = useRecoilValue(userInformationQuery);
-  const historyFiles = useRecoilValue(userFileHistoryQuery);
+
+  return { userinfo } as const;
+};
+
+export const useCommit = () => {
   const commit = (params: { text: string }) => getGitHubStorage().save(params);
 
   return {
-    userinfo,
-    historyFiles,
     commit,
+  } as const;
+};
+
+export const useCommitHistory = () => {
+  const { data: history, reload: reloadHistory } = useRecoilValue(userFileHistoryQuery);
+
+  return {
+    history,
+    reloadHistory,
   } as const;
 };

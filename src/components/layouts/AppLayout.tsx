@@ -1,9 +1,9 @@
 import { ChakraProvider, Container, Flex, Grid, GridItem } from '@chakra-ui/react';
 import React, { PropsWithChildren } from 'react';
 import { ToastContainer } from '../../hooks';
+import { SuspenseContainer } from '../shared/SuspenseContainer';
 import { theme } from '../theme';
 import { AppHeader } from './Header';
-import { SuspenseContainer } from './SuspenseContainer';
 
 export const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   return (
