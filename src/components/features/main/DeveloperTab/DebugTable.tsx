@@ -26,26 +26,20 @@ export const DebugTable = () => {
             <Td>{JSON.stringify(appInitialState.urlParams)}</Td>
           </Tr>
           <Tr>
-            <Td>App Type</Td>
+            <Td>Opened By</Td>
             <Td>{appInitialState.appOpenedBy}</Td>
           </Tr>
           <Tr>
             <Td>Access Token</Td>
-            <Td>{appInitialState.accessToken?.slice(0, 9).concat('*******')}</Td>
+            <Td>{appInitialState.accessToken?.slice(0, 8).concat('***')}</Td>
           </Tr>
           <Tr>
             <Td>Build Version</Td>
             <Td>
-              #{ENV.version} / {format(new Date(ENV.buildTimestamp), 'yyyy-MM-dd HH:mm:ss')}
+              #{ENV.version} - {format(new Date(ENV.buildTimestamp), 'yyyy-MM-dd HH:mm:ss')}
             </Td>
           </Tr>
         </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>key</Th>
-            <Th>value</Th>
-          </Tr>
-        </Tfoot>
       </Table>
     </TableContainer>
   );
