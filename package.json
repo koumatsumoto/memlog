@@ -62,8 +62,10 @@
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "react-scripts": "5.0.1",
-    "ts-essentials": "^9.2.0",
     "typescript": "^4.7.4"
+  },
+  "overrides": {
+    "nth-check": "2.0.1"
   },
   "browserslist": {
     "production": [
