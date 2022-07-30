@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { selector, useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
 import { getUrlQueryParams } from '../utils';
-import { storage } from './storage';
+import { AppStorage } from './AppStorage';
 
 const startUrlState = selector({
   key: 'startUrlState',
@@ -32,7 +32,7 @@ export const useAppInitialState = () => {
    * 以前にOAuth認証が完了してアクセスキーを発行している場合はStorageにキャッシュを保存しているため、それを確認する
    *   - TODO: validation
    */
-  const accessToken = useMemo(() => storage.loadAccessToken(), []);
+  const accessToken = useMemo(() => AppStorage().loadAccessToken(), []);
   const hasAccessToken = Boolean(accessToken);
 
   return {

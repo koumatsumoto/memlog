@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { ENV } from '../environments';
-import { storage } from './storage';
+import { AppStorage } from './AppStorage';
 
 export const login = () => {
   window.location.href = `https://github.com/login/oauth/authorize?${new URLSearchParams({
@@ -11,8 +11,8 @@ export const login = () => {
 };
 
 export const logout = async () => {
-  const token = storage.loadAccessToken();
-  storage.resetAll();
+  const token = AppStorage().loadAccessToken();
+  AppStorage().resetAll();
 
   if (token) {
     await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token, isDev: ENV.isLocalhost }) }).then(
@@ -50,11 +50,11 @@ export const requestAccessTokenAndSaveToStorage = async (code: string) => {
     throw error;
   }
 
-  storage.saveAccessToken(data.access_token);
+  AppStorage().saveAccessToken(data.access_token);
 };
 
 export const useAuth = () => {
-  const accessToken = useMemo(() => storage.loadAccessToken(), []);
+  const accessToken = useMemo(() => AppStorage().loadAccessToken(), []);
 
   return {
     canLogout: Boolean(accessToken),

@@ -1,6 +1,6 @@
 import GitHubStorage from '@koumatsumoto/github-storage';
 import { selector, useRecoilValue } from 'recoil';
-import { storage } from './storage';
+import { AppStorage } from './AppStorage';
 import { useLoadingState } from './utils';
 
 let githubStorage: GitHubStorage;
@@ -10,7 +10,7 @@ const getGitHubStorage = () => {
   }
 
   return (githubStorage = new GitHubStorage({
-    token: storage.loadAccessToken() ?? '',
+    token: AppStorage().loadAccessToken() ?? '',
     repository: 'memlog-storage',
   }));
 };
