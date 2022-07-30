@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
 import { useCreateCommit, userFileHistoryQuery, userInformationQuery } from '../../hooks';
-import { noop } from '../../utils';
 import { toast } from '../Toast';
 import { DeveloperTab } from './DeveloperTab';
 
@@ -91,7 +90,7 @@ const CreateCommitButton = () => {
       .with({ loading: false, error: P.not(P.nullish) }, () =>
         toast({ title: 'Error', description: `commit failed with an error, ${result.error?.message ?? String(result.error)}`, status: 'error' }),
       )
-      .otherwise(noop);
+      .otherwise(() => {});
   }, [result]);
 
   return (

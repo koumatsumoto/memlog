@@ -2,9 +2,10 @@ import { Button, Code, Container, Flex, HStack, Text, VStack } from '@chakra-ui/
 import { Waveform } from '@uiball/loaders';
 import { PropsWithChildren, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { identity, isString, isError } from 'remeda';
 import { match } from 'ts-pattern';
 import { logout } from '../hooks';
-import { identity, isError, isString, notask, prettyJson, printError } from '../utils';
+import { prettyJson, printError } from '../utils';
 import { toast } from './Toast';
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
@@ -17,7 +18,9 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
       .otherwise(() => 'UnknownApplicationError');
     toast({ title: 'Error', description: errorType, status: 'error' });
 
-    match(errorType).with('OAuthAccessTokenMaybeExpiredOrRevoked', logout).otherwise(notask);
+    match(errorType)
+      .with('OAuthAccessTokenMaybeExpiredOrRevoked', logout)
+      .otherwise(() => {});
   }, [error]);
 
   return (

@@ -1,4 +1,4 @@
-import { fromBase64, toBase64 } from './string';
+import { fromBase64, toBase64 } from './functions';
 
 test('toBase64', () => {
   expect(fromBase64(toBase64('a'))).toBe('a');

@@ -1,6 +1,7 @@
 import { atom, atomFamily, selector, useRecoilValue } from 'recoil';
+import { isTruthy } from 'remeda';
 import { match, P } from 'ts-pattern';
-import { getUrlQueryParams, isFalsy, isNonEmptyString, prettyJson } from '../../utils';
+import { getUrlQueryParams, isNonEmptyString, prettyJson } from '../../utils';
 import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage } from '../login';
 import { storage } from '../storage';
 
@@ -13,16 +14,14 @@ const gitHubAuthenticationState = atomFamily<{ code?: string; startTime?: number
   default: {},
   effects: ({ code }) => [
     ({ setSelf }) => {
-      if (isFalsy(code)) {
-        return;
+      if (isTruthy(code)) {
+        const startTime = Date.now();
+        setSelf({ code, startTime });
+        requestAccessTokenAndSaveToStorage(code)
+          .then(() => setSelf({ code, startTime, endTime: Date.now() }))
+          .catch((e) => alert(prettyJson(e)))
+          .finally(() => replaceLocationWithTopPage());
       }
-
-      const startTime = Date.now();
-      setSelf({ code, startTime });
-      requestAccessTokenAndSaveToStorage(code)
-        .then(() => setSelf({ code, startTime, endTime: Date.now() }))
-        .catch((e) => alert(prettyJson(e)))
-        .finally(() => replaceLocationWithTopPage());
     },
   ],
 });

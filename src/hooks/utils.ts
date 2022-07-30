@@ -22,32 +22,3 @@ export const useLoadingState = <Data, Params>(fn: (params: Params) => Promise<Da
     state,
   ] as const;
 };
-
-export const toSuspenseLoader = <A>(promise: Promise<A>) => {
-  let status: 'pending' | 'fulfilled' | 'rejected' = 'pending';
-  let result: A | Error | undefined;
-
-  const suspender = promise.then(
-    (data) => {
-      status = 'fulfilled';
-      result = data;
-    },
-    (error) => {
-      status = 'rejected';
-      result = error instanceof Error ? error : new Error(error);
-    },
-  );
-
-  return {
-    load: () => {
-      switch (status) {
-        case 'pending':
-          throw suspender;
-        case 'fulfilled':
-          return result as A;
-        case 'rejected':
-          throw result;
-      }
-    },
-  } as const;
-};
