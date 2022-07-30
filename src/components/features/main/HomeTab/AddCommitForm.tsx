@@ -27,8 +27,8 @@ export const AddCommitForm = () => {
       validateOnMount
     >
       {(props) => (
-        <VStack>
-          <Textarea size="lg" h="24vh" {...props.getFieldProps('text')} />
+        <VStack spacing="16px">
+          <Textarea minW="56vw" h="24vh" fontSize="14px" borderColor="#fff9" {...props.getFieldProps('text')} />
           <Button
             colorScheme="green"
             size="sm"
