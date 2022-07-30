@@ -2,11 +2,10 @@ import { Button, Code, Container, Flex, HStack, Text, VStack } from '@chakra-ui/
 import { Waveform } from '@uiball/loaders';
 import { PropsWithChildren, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { identity, isString, isError } from 'remeda';
+import { identity, isError, isString } from 'remeda';
 import { match } from 'ts-pattern';
-import { logout } from '../hooks';
-import { prettyJson, printError } from '../utils';
-import { toast } from './Toast';
+import { logout, toast } from '../../hooks';
+import { prettyJson, printError } from '../../utils';
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
   const print = () => match(error).when(isString, identity).when(isError, printError).otherwise(prettyJson);

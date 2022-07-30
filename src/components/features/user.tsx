@@ -20,8 +20,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { match, P } from 'ts-pattern';
-import { useGitHub } from '../../hooks';
-import { toast } from '../Toast';
+import { toast, useGitHub } from '../../hooks';
 import { DeveloperTab } from './DeveloperTab';
 
 export const LoggedInView = () => {

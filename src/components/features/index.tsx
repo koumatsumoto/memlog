@@ -7,15 +7,7 @@ export { LoggedInView } from './user';
 
 export const NotLoggedInView = () => {
   return (
-    <Container
-      centerContent
-      sx={{
-        color: 'white',
-        height: '60px',
-        padding: '12px 16px',
-        position: 'relative',
-      }}
-    >
+    <Container centerContent p="16px">
       <Button onClick={login} colorScheme="green" size="md">
         Login
       </Button>
