@@ -1,19 +1,38 @@
 import { ChakraProvider, Container, Flex, Grid, GridItem } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { match } from 'ts-pattern';
-import { useApplicationSetup } from '../hooks';
+import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage, useAppInitialState } from '../hooks';
+import { prettyJson } from '../utils';
 import { SuspenseContainer } from './Container';
 import { AppHeader } from './Header';
-import { ToastContainer } from './Toast';
+import { toast, ToastContainer } from './Toast';
 import { theme } from './theme';
 import { LoadingView, LoggedInView, NotLoggedInView } from './views';
 
 function App() {
-  const settings = useApplicationSetup();
+  const { appOpenedBy, urlParams, hasAccessToken } = useAppInitialState();
+
+  useEffect(() => {
+    // OAuth Redirect
+    if (urlParams.code) {
+      requestAccessTokenAndSaveToStorage(urlParams.code)
+        .catch((e) => alert(prettyJson(e)))
+        .finally(() => replaceLocationWithTopPage());
+    }
+
+    // SharedTargetAPI
+    if (appOpenedBy === 'SharedTargetAPI') {
+      toast({
+        title: 'App opened by Web Share Target API ',
+        description: `title: ${urlParams.title}\ntext: ${urlParams.text}`,
+        status: 'info',
+      });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const Contents = () =>
-    match(settings)
-      .with({ appOpenedBy: 'StartedWithOAuthRedirect' }, LoadingView)
+    match({ appOpenedBy, hasAccessToken })
+      .with({ appOpenedBy: 'OAuthRedirect' }, LoadingView)
       .with({ hasAccessToken: false }, NotLoggedInView)
       .with({ hasAccessToken: true }, LoggedInView)
       .exhaustive();

@@ -1,5 +1,23 @@
 import { TimeIcon } from '@chakra-ui/icons';
-import { Avatar, Box, Button, Container, Grid, GridItem, HStack, List, ListIcon, ListItem, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Grid,
+  GridItem,
+  HStack,
+  List,
+  ListIcon,
+  ListItem,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
@@ -86,9 +104,15 @@ const CreateCommitButton = () => {
 
   useEffect(() => {
     match(result)
-      .with({ loading: false, data: P.not(P.nullish) }, () => toast({ title: 'OK', description: `commit created successfully, #${result.data?.lastCommitId}`, status: 'info' }))
+      .with({ loading: false, data: P.not(P.nullish) }, () =>
+        toast({ title: 'OK', description: `commit created successfully, #${result.data?.lastCommitId}`, status: 'info' }),
+      )
       .with({ loading: false, error: P.not(P.nullish) }, () =>
-        toast({ title: 'Error', description: `commit failed with an error, ${result.error?.message ?? String(result.error)}`, status: 'error' }),
+        toast({
+          title: 'Error',
+          description: `commit failed with an error, ${result.error?.message ?? String(result.error)}`,
+          status: 'error',
+        }),
       )
       .otherwise(() => {});
   }, [result]);

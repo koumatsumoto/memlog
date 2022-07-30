@@ -14,7 +14,10 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
 
   useEffect(() => {
     const errorType = match(error)
-      .with({ name: 'HttpError', response: { data: { message: 'Bad credentials' } } }, () => 'OAuthAccessTokenMaybeExpiredOrRevoked' as const)
+      .with(
+        { name: 'HttpError', response: { data: { message: 'Bad credentials' } } },
+        () => 'OAuthAccessTokenMaybeExpiredOrRevoked' as const,
+      )
       .otherwise(() => 'UnknownApplicationError');
     toast({ title: 'Error', description: errorType, status: 'error' });
 

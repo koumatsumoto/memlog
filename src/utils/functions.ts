@@ -10,4 +10,6 @@ export const fromBase64 = (text: string) => decodeURIComponent(escape(atob(text)
 
 export const isNonEmptyString = (value: unknown): value is Exclude<string, ''> => isString(value) && value.length > 0;
 
-export const getUrlQueryParams = (): Record<string, string | undefined> => Object.fromEntries(new URLSearchParams(window.location.search).entries());
+export const getUrlQueryParams = <ExpectedKeys extends string = string>(search = window.location.search) => {
+  return Object.fromEntries(new URLSearchParams(search).entries()) as Record<ExpectedKeys, string | undefined>;
+};

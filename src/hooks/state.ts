@@ -30,9 +30,9 @@ const githubAccessToken = atom({ key: 'githubAccessToken', default: storage.load
 const hasGitHubAccessToken = selector({ key: 'hasGitHubAccessToken', get: ({ get }) => isNonEmptyString(get(githubAccessToken)) });
 
 export const state = {
-  urlQueryParams,
+  urlQueryParams: urlQueryParams,
   gitHubAuthCode,
-  gitHubAuthenticationState,
+  gitHubAuthenticationState: gitHubAuthenticationState,
   githubAccessToken,
   hasGitHubAccessToken,
 } as const;
@@ -45,11 +45,11 @@ export const useAppInitialState = () => {
    *   3. パラメータがない場合は、通常起動
    */
   const startUrl = useRecoilValue(startUrlState);
-  const urlParams = useRecoilValue(state.urlQueryParams) as { code?: string; title?: string; text?: string };
+  const urlParams = getUrlQueryParams<'code' | 'title' | 'text'>();
   const appOpenedBy = match(urlParams)
-    .with({ code: P.string }, () => 'StartedWithOAuthRedirect' as const)
-    .with({ title: P.string, text: P.string }, () => 'StartedWithSharedTargetAPI' as const)
-    .otherwise(() => 'StartedWithUser' as const);
+    .with({ code: P.string }, () => 'OAuthRedirect' as const)
+    .with({ title: P.string, text: P.string }, () => 'SharedTargetAPI' as const)
+    .otherwise(() => 'User' as const);
 
   /**
    * 以前にOAuth認証が完了してアクセスキーを発行している場合はStorageにキャッシュを保存しているため、それを確認する

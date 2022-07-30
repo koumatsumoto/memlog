@@ -7,7 +7,12 @@ type Config = {
 
 const logged: string[] = [];
 const log = (message: string, ...args: any[]) => {
-  const newMessage = args.length === 0 ? `[dev] ${message}` : args.length === 1 ? `[dev] ${message}: ${JSON.stringify(args.at(0))}` : `[dev] ${message}: ${JSON.stringify(args)}`;
+  const newMessage =
+    args.length === 0
+      ? `[dev] ${message}`
+      : args.length === 1
+      ? `[dev] ${message}: ${JSON.stringify(args.at(0))}`
+      : `[dev] ${message}: ${JSON.stringify(args)}`;
   logged.push(newMessage);
   console.log(newMessage);
   const e = document.querySelector<HTMLPreElement>('#devlog');

@@ -4,11 +4,14 @@ import { ENV } from '../environments';
 import { getUrlQueryParams } from '../utils';
 import { storage } from './storage';
 
-type AccessTokenResponse = { data: { access_token: string; scope: string; token_type: 'bearer' }; error: undefined } | { data: undefined; error: string | 'bad_verification_code' };
+type AccessTokenResponse =
+  | { data: { access_token: string; scope: string; token_type: 'bearer' }; error: undefined }
+  | { data: undefined; error: string | 'bad_verification_code' };
 export const requestAccessTokenAndSaveToStorage = async (code: string) => {
-  const { data, error } = await fetch('https://memlog-auth.deno.dev/login', { method: 'POST', body: JSON.stringify({ code, isDev: ENV.isLocalhost }) }).then(
-    (res) => res.json() as Promise<AccessTokenResponse>,
-  );
+  const { data, error } = await fetch('https://memlog-auth.deno.dev/login', {
+    method: 'POST',
+    body: JSON.stringify({ code, isDev: ENV.isLocalhost }),
+  }).then((res) => res.json() as Promise<AccessTokenResponse>);
   if (!data) {
     throw error;
   }
@@ -46,7 +49,9 @@ export const logout = async () => {
 };
 
 const requestLogout = async ({ token }: { token: string }): Promise<{}> =>
-  await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token, isDev: ENV.isLocalhost }) }).then((res) => res.json());
+  await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token, isDev: ENV.isLocalhost }) }).then(
+    (res) => res.json(),
+  );
 
 export const useLogin = () => {
   const accessToken = useGitHubAccessToken();
