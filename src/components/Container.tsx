@@ -14,6 +14,8 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
 
   useEffect(() => {
     const errorType = match(error)
+      // from GraphQL query client
+      .with({ response: { status: 401 } }, () => 'BadCredentialsError' as const)
       .with(
         { name: 'HttpError', response: { data: { message: 'Bad credentials' } } },
         () => 'OAuthAccessTokenMaybeExpiredOrRevoked' as const,
@@ -22,6 +24,7 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
     toast({ title: 'Error', description: errorType, status: 'error' });
 
     match(errorType)
+      .with('BadCredentialsError', logout)
       .with('OAuthAccessTokenMaybeExpiredOrRevoked', logout)
       .otherwise(() => {});
   }, [error]);

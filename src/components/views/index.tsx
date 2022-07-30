@@ -1,13 +1,11 @@
 import { Button, Container, Text, VStack } from '@chakra-ui/react';
 import { Waveform } from '@uiball/loaders';
 import React from 'react';
-import { useLogin } from '../../hooks';
+import { login } from '../../hooks';
 
 export { LoggedInView } from './user';
 
 export const NotLoggedInView = () => {
-  const { loginWithRedirect } = useLogin();
-
   return (
     <Container
       centerContent
@@ -18,7 +16,7 @@ export const NotLoggedInView = () => {
         position: 'relative',
       }}
     >
-      <Button onClick={loginWithRedirect} colorScheme="green" size="md">
+      <Button onClick={login} colorScheme="green" size="md">
         Login
       </Button>
     </Container>

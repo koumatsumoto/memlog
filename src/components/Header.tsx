@@ -2,10 +2,10 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { Heading, HStack, IconButton } from '@chakra-ui/react';
 import React, { FunctionComponent } from 'react';
 import { ENV } from '../environments';
-import { useLogin } from '../hooks';
+import { useAuth } from '../hooks';
 
 export const AppHeader: FunctionComponent = () => {
-  const { canLogout, logoutWithReload } = useLogin();
+  const { canLogout, logoutWithReload } = useAuth();
 
   return (
     <HStack width="full" height="headerHeight" justify="center" position="relative">
