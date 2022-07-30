@@ -23,7 +23,7 @@ export const useAppInitialState = () => {
   /**
    * URLパラメータからアプリの起動種別を判定する
    *   1. `code` のパラメータがある場合はOAuth認証後のリダイレクト
-   *   2. `title`, `text` のパラメータがある場合はShareTargetApiによる呼び出し
+   *   2. `text` `title` のパラメータがある場合はShareTargetApiによる呼び出し
    *   3. パラメータがない場合は、通常起動
    */
   const startUrl = useRecoilValue(startUrlState);
@@ -55,7 +55,7 @@ export const useAppInitialState = () => {
     }
 
     // Shared Target API
-    if (urlParams.title && urlParams.text) {
+    if (urlParams.text) {
       createCommit({ text: JSON.stringify({ ...urlParams, tags: ['SharedTargetAPI'] }) })
         .then(() => {
           window.history.pushState({}, document.title, new URL(window.location.href).pathname); // drop search params
