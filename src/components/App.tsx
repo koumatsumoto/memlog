@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { match } from 'ts-pattern';
-import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage, toast, useAppInitialState } from '../hooks';
+import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage, notifySuccess, useAppInitialState } from '../hooks';
 import { prettyJson } from '../utils';
 import { LoadingView } from './features/loading';
 import { LoginForm } from './features/login';
@@ -20,11 +20,7 @@ const App = () => {
 
     // SharedTargetAPI
     if (appOpenedBy === 'SharedTargetAPI') {
-      toast({
-        title: 'App opened by Web Share Target API ',
-        description: `title: ${urlParams.title}\ntext: ${urlParams.text}`,
-        status: 'info',
-      });
+      notifySuccess(`App opened from Web Share Target API\n title: ${urlParams.title}\ntext: ${urlParams.text}`);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

@@ -4,7 +4,7 @@ import { PropsWithChildren, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { identity, isError, isString } from 'remeda';
 import { match } from 'ts-pattern';
-import { logout, toast } from '../../hooks';
+import { logout, notifyError } from '../../hooks';
 import { prettyJson, printError } from '../../utils';
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
@@ -20,7 +20,7 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
         () => 'OAuthAccessTokenMaybeExpiredOrRevoked' as const,
       )
       .otherwise(() => 'UnknownApplicationError');
-    toast({ title: 'Error', description: errorType, status: 'error' });
+    notifyError(errorType);
 
     match(errorType)
       .with('BadCredentialsError', logout)

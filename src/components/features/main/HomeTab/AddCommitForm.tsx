@@ -1,7 +1,7 @@
 import { Button, Textarea, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { toast, useGitHub } from '../../../../hooks';
+import { notifySuccess, notifyError, useGitHub } from '../../../../hooks';
 
 export const AddCommitForm = () => {
   const { commit } = useGitHub();
@@ -17,11 +17,11 @@ export const AddCommitForm = () => {
       onSubmit={async (values: { text: string }, { resetForm }) => {
         await commit(values)
           .then(({ lastCommitId }) => {
-            toast({ title: 'OK', description: `commit created successfully, #${lastCommitId}`, status: 'info' });
+            notifySuccess(`commit created successfully, #${lastCommitId}`);
             resetForm();
           })
           .catch((error) => {
-            toast({ title: 'Error', description: `commit failed with an error, ${error}`, status: 'error' });
+            notifyError(`commit failed with an error, ${error}`);
           });
       }}
       validateOnMount
