@@ -11,8 +11,8 @@ export const login = () => {
 };
 
 export const logout = async () => {
-  const token = AppStorage().loadAccessToken();
-  AppStorage().resetAll();
+  const token = AppStorage.loadAccessToken();
+  AppStorage.resetAll();
 
   if (token) {
     await fetch('https://memlog-auth.deno.dev/logout', { method: 'POST', body: JSON.stringify({ token, isDev: ENV.isLocalhost }) }).then(
@@ -41,7 +41,7 @@ type LoginApiResponse =
       error: string | 'bad_verification_code';
     };
 
-export const requestAccessTokenAndSaveToStorage = async (code: string) => {
+export const requestAccessToken = async (code: string) => {
   const { data, error } = await fetch('https://memlog-auth.deno.dev/login', {
     method: 'POST',
     body: JSON.stringify({ code, isDev: ENV.isLocalhost }),
@@ -50,11 +50,11 @@ export const requestAccessTokenAndSaveToStorage = async (code: string) => {
     throw error;
   }
 
-  AppStorage().saveAccessToken(data.access_token);
+  return data.access_token;
 };
 
 export const useAuth = () => {
-  const accessToken = useMemo(() => AppStorage().loadAccessToken(), []);
+  const accessToken = useMemo(() => AppStorage.loadAccessToken(), []);
 
   return {
     canLogout: Boolean(accessToken),

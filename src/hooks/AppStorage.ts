@@ -9,7 +9,7 @@ type UserInfo = {
   updatedAt: string;
 };
 
-export const AppStorage = (storage = window.localStorage) => {
+const createAppStorage = (storage = window.localStorage) => {
   return {
     loadAccessToken() {
       return storage.getItem(keys.accessToken) || null;
@@ -27,3 +27,5 @@ export const AppStorage = (storage = window.localStorage) => {
     },
   } as const;
 };
+
+export const AppStorage = createAppStorage();

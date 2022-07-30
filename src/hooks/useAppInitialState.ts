@@ -3,7 +3,7 @@ import { selector, useRecoilValue } from 'recoil';
 import { match, P } from 'ts-pattern';
 import { prettyJson } from '../utils';
 import { AppStorage } from './AppStorage';
-import { replaceLocationWithTopPage, requestAccessTokenAndSaveToStorage } from './useAuth';
+import { replaceLocationWithTopPage, requestAccessToken } from './useAuth';
 import { createCommit } from './useGitHub';
 
 const startUrlState = selector({
@@ -37,7 +37,7 @@ export const useAppInitialState = () => {
    * 以前にOAuth認証が完了してアクセスキーを発行している場合はStorageにキャッシュを保存しているため、それを確認する
    *   - TODO: validation
    */
-  const accessToken = useMemo(() => AppStorage().loadAccessToken(), []);
+  const accessToken = useMemo(() => AppStorage.loadAccessToken(), []);
   const hasAccessToken = Boolean(accessToken);
 
   const onceInitializeApp = useCallback(() => {
@@ -48,7 +48,8 @@ export const useAppInitialState = () => {
 
     // OAuth Redirect
     if (urlParams.code) {
-      requestAccessTokenAndSaveToStorage(urlParams.code)
+      requestAccessToken(urlParams.code)
+        .then((token) => AppStorage.saveAccessToken(token))
         .catch((e) => alert(prettyJson(e)))
         .finally(() => replaceLocationWithTopPage());
     }

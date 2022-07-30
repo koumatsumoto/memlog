@@ -10,7 +10,7 @@ const getGitHubStorage = () => {
   }
 
   return (githubStorage = new GitHubStorage({
-    token: AppStorage().loadAccessToken() ?? '',
+    token: AppStorage.loadAccessToken() ?? '',
     repository: 'memlog-storage',
   }));
 };
