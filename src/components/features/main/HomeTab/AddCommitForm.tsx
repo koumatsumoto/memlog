@@ -1,10 +1,10 @@
 import { Button, Textarea, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { notifySuccess, notifyError, useCommit } from '../../../../hooks';
+import { useCommit } from '../../../../hooks';
 
 export const AddCommitForm = () => {
-  const { commit } = useCommit();
+  const { createCommit } = useCommit();
 
   return (
     <Formik
@@ -15,14 +15,9 @@ export const AddCommitForm = () => {
         text: yup.string().required(),
       })}
       onSubmit={async (values: { text: string }, { resetForm }) => {
-        await commit(values)
-          .then(({ lastCommitId }) => {
-            notifySuccess(`commit created successfully, #${lastCommitId}`);
-            resetForm();
-          })
-          .catch((error) => {
-            notifyError(`commit failed with an error, ${error}`);
-          });
+        await createCommit(values).then(() => {
+          resetForm();
+        });
       }}
       validateOnMount
     >

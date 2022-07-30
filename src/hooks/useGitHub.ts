@@ -1,6 +1,7 @@
 import GitHubStorage from '@koumatsumoto/github-storage';
 import { selector, useRecoilValue } from 'recoil';
 import { AppStorage } from './AppStorage';
+import { notifyError, notifySuccess } from './Toast';
 
 let githubStorage: GitHubStorage;
 const getGitHubStorage = () => {
@@ -38,10 +39,19 @@ export const useUserinfo = () => {
 };
 
 export const useCommit = () => {
-  const commit = (params: { text: string }) => getGitHubStorage().save(params);
+  const createCommit = (params: { text: string }) =>
+    getGitHubStorage()
+      .save(params)
+      .then(({ lastCommitId }) => {
+        notifySuccess(`commit created, #${lastCommitId.slice(0, 8)}`);
+      })
+      .catch((error) => {
+        notifyError(`commit failed with an error, ${error}`);
+        throw error;
+      });
 
   return {
-    commit,
+    createCommit,
   } as const;
 };
 
