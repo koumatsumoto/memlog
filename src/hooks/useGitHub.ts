@@ -9,10 +9,14 @@ const getGitHubStorage = () => {
     return githubStorage;
   }
 
-  return (githubStorage = new GitHubStorage({
+  githubStorage = new GitHubStorage({
     token: AppStorage.loadAccessToken() ?? '',
     repository: 'memlog-storage',
-  }));
+  });
+
+  // for debug
+  (window as any)['GitHubStorage'] = githubStorage;
+  return githubStorage;
 };
 
 const userInformationQuery = selector({
@@ -23,7 +27,12 @@ const userInformationQuery = selector({
 const userFileHistoryQuery = selector({
   key: 'userFileHistoryQuery',
   get: async ({ getCallback }) => {
-    const data = await getGitHubStorage().load({ count: 8 });
+    const data = await getGitHubStorage()
+      .load({ count: 6 })
+      .catch((e) => {
+        console.error('[app] userFileHistoryQuery', e);
+        return [];
+      });
     const reload = getCallback(({ refresh }) => () => {
       refresh(userFileHistoryQuery);
     });
@@ -38,9 +47,9 @@ export const useUserinfo = () => {
   return { userinfo } as const;
 };
 
-export const createCommit = (params: { text: string }) =>
+export const createCommit = ({ text }: { text: string }) =>
   getGitHubStorage()
-    .save(params)
+    .save({ title: 'メモ', text })
     .then(({ lastCommitId }) => {
       notifySuccess(`commit created, #${lastCommitId.slice(0, 8)}`);
     })

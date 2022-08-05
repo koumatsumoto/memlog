@@ -17,7 +17,11 @@ export const CommitHistoryList = () => {
                 <ListIcon as={TimeIcon} color="green.500" />
               </Box>
               <VStack align="start" spacing={0}>
-                <Text>{format(Number(data.time), 'MM月dd日 HH時mm分', { locale: ja })}</Text>
+                <HStack>
+                  <Text>{formatDateTime(data.time)}</Text>
+                  <Text>{data.title}</Text>
+                  <Text>{data.tags.map((t) => `#${t}`).join(' ')}</Text>
+                </HStack>
                 <Text>{data.text}</Text>
               </VStack>
             </HStack>
@@ -29,4 +33,8 @@ export const CommitHistoryList = () => {
       </Button>
     </VStack>
   );
+};
+
+const formatDateTime = (time: number) => {
+  return format(time, 'MM月dd日 HH時mm分', { locale: ja });
 };

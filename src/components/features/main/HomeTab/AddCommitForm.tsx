@@ -6,12 +6,8 @@ import { createCommit } from '../../../../hooks';
 export const AddCommitForm = () => {
   return (
     <Formik
-      initialValues={{
-        text: '',
-      }}
-      validationSchema={yup.object({
-        text: yup.string().required(),
-      })}
+      initialValues={{ text: '' }}
+      validationSchema={yup.object({ text: yup.string().required() })}
       onSubmit={async (values: { text: string }, { resetForm }) => {
         await createCommit(values).then(() => {
           resetForm();

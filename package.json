@@ -19,7 +19,7 @@
     "@chakra-ui/react": "^2.2.4",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
-    "@koumatsumoto/github-storage": "^0.3.0",
+    "@koumatsumoto/github-storage": "^0.4.1",
     "@uiball/loaders": "^1.2.6",
     "date-fns": "^2.29.1",
     "formik": "^2.2.9",
