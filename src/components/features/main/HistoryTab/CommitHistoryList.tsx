@@ -9,7 +9,16 @@ export const CommitHistoryList = () => {
 
   return (
     <VStack w="100%" spacing="16px">
-      <List spacing="8px" padding="16px 12px" borderRadius={2} background="beige" color="#333333" fontSize="12px" width="min(88%, 70vw)">
+      <List
+        spacing="8px"
+        padding="16px 12px"
+        borderRadius={2}
+        background="#f5f5dc"
+        color="#333333"
+        fontSize="12px"
+        overflow="auto"
+        w="full"
+      >
         {history.map((data) => (
           <ListItem key={data.time}>
             <HStack spacing={0} align="start">

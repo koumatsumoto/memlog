@@ -12,12 +12,12 @@ export const AppLayout = ({ contents }: { contents: ReactElement }) => {
       <Container variant="outermost" centerContent bg="#282c34" color="white">
         <SuspenseContainer>
           <Grid templateRows="auto 1fr" boxSize="full">
-            <GridItem>
+            <GridItem overflow="hidden">
               <Flex boxSize="full" justify="center">
                 <AppHeader />
               </Flex>
             </GridItem>
-            <GridItem overflow="auto">
+            <GridItem overflow="hidden">
               <Flex boxSize="full" justify="center">
                 {contents}
               </Flex>

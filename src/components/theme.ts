@@ -18,9 +18,9 @@ export const theme = extendTheme({
       html: { height: '100%' },
       body: { height: '100%' },
       '#root': { height: '100%' },
-      '::-webkit-scrollbar': { width: '4px' },
-      '::-webkit-scrollbar-track': { background: 'transparent', borderColor: 'transparent' },
-      '::-webkit-scrollbar-thumb': { background: '#7d9586', borderRadius: '10vh' },
+      '*::-webkit-scrollbar': { width: '4px', height: '4px' },
+      '*::-webkit-scrollbar-track': { background: 'transparent', borderColor: 'transparent' },
+      '*::-webkit-scrollbar-thumb': { background: '#7d9586', borderRadius: '10vh' },
     },
   },
   components: {
