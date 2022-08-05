@@ -2,7 +2,7 @@ import { ChakraProvider, Container, Flex, Grid, GridItem } from '@chakra-ui/reac
 import type { ReactElement } from 'react';
 import { ToastContainer } from '../../hooks';
 import { SuspenseContainer } from '../shared';
-import { theme } from '../theme';
+import { theme } from '../themes';
 import { AppHeader } from './Header';
 
 export const AppLayout = ({ contents }: { contents: ReactElement }) => {

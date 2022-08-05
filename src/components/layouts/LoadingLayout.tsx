@@ -1,6 +1,6 @@
 import { ChakraProvider, Container } from '@chakra-ui/react';
 import { LoadingView } from '../shared';
-import { theme } from '../theme';
+import { theme } from '../themes';
 
 export const LoadingLayout = () => {
   return (
