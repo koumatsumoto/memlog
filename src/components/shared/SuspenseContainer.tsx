@@ -1,11 +1,11 @@
 import { Button, Code, Container, HStack, Text } from '@chakra-ui/react';
-import { PropsWithChildren, Suspense, useEffect } from 'react';
+import { PropsWithChildren, ReactNode, Suspense, useEffect } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { identity, isError, isString } from 'remeda';
 import { match } from 'ts-pattern';
 import { logout, notifyError } from '../../hooks';
 import { prettyJson, printError } from '../../utils';
-import { LoadingView } from './LoadingView';
+import { LoadingIcon } from './Loading';
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
   const print = () => match(error).when(isString, identity).when(isError, printError).otherwise(prettyJson);
@@ -54,10 +54,10 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
   );
 };
 
-export const SuspenseContainer = ({ children }: PropsWithChildren<{}>) => {
+export const SuspenseContainer = ({ children, fallback }: PropsWithChildren<{ fallback?: ReactNode }>) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense fallback={<LoadingView />}>{children}</Suspense>
+      <Suspense fallback={fallback ?? <LoadingIcon />}>{children}</Suspense>
     </ErrorBoundary>
   );
 };
