@@ -1,13 +1,11 @@
 import { Button, Textarea, VStack } from '@chakra-ui/react';
 import { Formik } from 'formik';
-import * as yup from 'yup';
 import { createCommit } from '../../../../hooks';
 
 export const AddCommitForm = () => {
   return (
     <Formik
       initialValues={{ text: '' }}
-      validationSchema={yup.object({ text: yup.string().required() })}
       onSubmit={async (values: { text: string }, { resetForm }) => {
         await createCommit(values).then(() => {
           resetForm();

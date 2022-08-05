@@ -47,9 +47,9 @@ export const useUserinfo = () => {
   return { userinfo } as const;
 };
 
-export const createCommit = ({ text }: { text: string }) =>
+export const createCommit = ({ title = 'メモ', text = '', tags = [] }: { title?: string; text?: string; tags?: string[] }) =>
   getGitHubStorage()
-    .save({ title: 'メモ', text })
+    .save({ title, text, tags })
     .then(({ lastCommitId }) => {
       notifySuccess(`commit created, #${lastCommitId.slice(0, 8)}`);
     })
