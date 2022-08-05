@@ -3,8 +3,7 @@ import { match } from 'ts-pattern';
 import { useAppInitialState } from '../hooks';
 import { LoginForm } from './features/login';
 import { MainTabContents } from './features/main';
-import { AppLayout } from './layouts/AppLayout';
-import { LoadingLayout } from './layouts/LoadingLayout';
+import { AppLayout, LoadingLayout } from './layouts';
 
 const App = () => {
   const { appOpenedBy, hasAccessToken, onceInitializeApp } = useAppInitialState();
