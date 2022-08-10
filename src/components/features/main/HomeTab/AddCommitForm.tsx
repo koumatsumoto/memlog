@@ -6,8 +6,8 @@ export const AddCommitForm = () => {
   return (
     <Formik
       initialValues={{ text: "" }}
-      onSubmit={async (values: { text: string }, { resetForm }) => {
-        await createCommit(values).then(() => {
+      onSubmit={async (values, { resetForm }) => {
+        await createCommit({ title: "メモ", text: values.text, tags: ["note"] }).then(() => {
           resetForm();
         });
       }}

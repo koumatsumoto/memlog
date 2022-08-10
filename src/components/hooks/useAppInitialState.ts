@@ -56,7 +56,7 @@ export const useAppInitialState = () => {
 
     // Shared Target API
     if (urlParams.text) {
-      createCommit({ title: urlParams.title, text: urlParams.text, tags: ["WebShare"] })
+      createCommit({ title: urlParams.title, text: urlParams.text, tags: ["shared"] })
         .then(() => {
           window.history.pushState({}, document.title, new URL(window.location.href).pathname); // drop search params
         })
