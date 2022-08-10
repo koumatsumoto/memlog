@@ -1,10 +1,9 @@
 import { AtSignIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { Button, HStack, List, ListIcon, ListItem, Spacer, Text, VStack } from "@chakra-ui/react";
-import { format } from "date-fns";
-import ja from "date-fns/locale/ja";
+import { formatDateTime } from "../../../../utils";
 import { useCommitHistory } from "../../../hooks";
 
-export const CommitHistoryList = () => {
+export const CommitHistoryList = ({ onItemSelected }: { onItemSelected: (id: number) => void }) => {
   const { history, reloadHistory } = useCommitHistory();
 
   return (
@@ -32,7 +31,7 @@ export const CommitHistoryList = () => {
                 <Text>{data.title}</Text>
               </VStack>
               <Spacer />
-              <VStack justify="center">
+              <VStack justify="center" onClick={() => onItemSelected(data.time)}>
                 <ListIcon as={ChevronRightIcon} />
               </VStack>
             </HStack>
@@ -44,8 +43,4 @@ export const CommitHistoryList = () => {
       </Button>
     </VStack>
   );
-};
-
-const formatDateTime = (time: number) => {
-  return format(time, "MM月dd日 HH時mm分", { locale: ja });
 };

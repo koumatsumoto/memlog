@@ -1,5 +1,5 @@
 import GitHubStorage from "@koumatsumoto/github-storage";
-import { selector, useRecoilValue } from "recoil";
+import { selector, selectorFamily, useRecoilValue } from "recoil";
 import { AppStorage, notifyError, notifySuccess } from "../shared";
 
 let githubStorage: GitHubStorage;
@@ -40,6 +40,17 @@ const userFileHistoryQuery = selector({
   },
 });
 
+const fileDetailQuery = selectorFamily({
+  key: "fileDetailQuery",
+  get: (id: number) => async () => {
+    const data = await getGitHubStorage().loadFile(id);
+    if (!data) {
+      throw new Error("File not found");
+    }
+    return data;
+  },
+});
+
 export const useUserinfo = () => {
   const userinfo = useRecoilValue(userInformationQuery);
 
@@ -64,4 +75,8 @@ export const useCommitHistory = () => {
     history,
     reloadHistory,
   } as const;
+};
+
+export const useFileDetail = (id: number) => {
+  return useRecoilValue(fileDetailQuery(id));
 };
