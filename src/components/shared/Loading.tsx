@@ -3,7 +3,7 @@ import { Waveform } from "@uiball/loaders";
 
 export const LoadingView = () => {
   return (
-    <Flex boxSize="full" align="center" justify="center">
+    <Flex boxSize="full" align="center" justify="center" bg="#282c34" color="#eee">
       <VStack transform="translateY(-16vh)">
         <Text>Loading</Text>
         <LoadingIcon />

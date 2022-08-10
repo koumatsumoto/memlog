@@ -20,11 +20,14 @@ export const logout = async () => {
     );
   }
 
-  replaceLocationWithTopPage();
+  replaceLocationWithLoginPage();
 };
 
 export const replaceLocationWithTopPage = () => {
-  window.location.replace(ENV.routes.top);
+  window.location.replace(`${ENV.urlPrefix}`);
+};
+export const replaceLocationWithLoginPage = () => {
+  window.location.replace(`${ENV.urlPrefix}login`);
 };
 
 type LoginApiResponse =
