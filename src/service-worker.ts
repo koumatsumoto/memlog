@@ -70,18 +70,37 @@ self.addEventListener("message", (event) => {
   }
 });
 
-// const sendLog = (message: string, ...data: unknown[]) => {
-//   self.clients.matchAll().then((clients) => {
-//     clients.forEach((client) => client.postMessage({ type: 'log', data: { message, data } }));
-//   });
-// };
+const test = async () => {
+  console.log("[service-worker] test");
 
-// setInterval(() => {
-//   self.clients.matchAll().then((clients) => {
-//     clients.forEach((client) => client.postMessage({ type: 'ping', data: Date.now() }));
-//   });
-// }, 20000);
-//
-// setImmediate(() => {
-//   sendLog('worker setup');
-// });
+  const res = await fetch("https://qiita.com/ksyunnnn/items/bfe2b9c568e97bb6b494")
+    .then((res) => res.text())
+    .then((text) => {
+      const el = new DOMParser().parseFromString(text, "text/html");
+      const headEls = el.head.children;
+      Array.from(headEls).map((v) => {
+        const prop = v.getAttribute("property");
+        if (!prop) return;
+        console.log(prop, v.getAttribute("content"));
+      });
+    });
+
+  console.log("[service-worker] test end", res);
+};
+
+test();
+const sendLog = (message: string, ...data: unknown[]) => {
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => client.postMessage({ type: "log", data: { message, data } }));
+  });
+};
+
+setInterval(() => {
+  self.clients.matchAll().then((clients) => {
+    clients.forEach((client) => client.postMessage({ type: "ping", data: Date.now() }));
+  });
+}, 20000);
+
+setImmediate(() => {
+  sendLog("worker setup");
+});
