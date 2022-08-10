@@ -1,7 +1,7 @@
-import GitHubStorage from '@koumatsumoto/github-storage';
-import { selector, useRecoilValue } from 'recoil';
-import { AppStorage } from './AppStorage';
-import { notifyError, notifySuccess } from './Toast';
+import GitHubStorage from "@koumatsumoto/github-storage";
+import { selector, useRecoilValue } from "recoil";
+import { AppStorage } from "./AppStorage";
+import { notifyError, notifySuccess } from "./Toast";
 
 let githubStorage: GitHubStorage;
 const getGitHubStorage = () => {
@@ -10,27 +10,27 @@ const getGitHubStorage = () => {
   }
 
   githubStorage = new GitHubStorage({
-    token: AppStorage.loadAccessToken() ?? '',
-    repository: 'memlog-storage',
+    token: AppStorage.loadAccessToken() ?? "",
+    repository: "memlog-storage",
   });
 
   // for debug
-  (window as any)['GitHubStorage'] = githubStorage;
+  (window as any)["GitHubStorage"] = githubStorage;
   return githubStorage;
 };
 
 const userInformationQuery = selector({
-  key: 'userInformationQuery',
+  key: "userInformationQuery",
   get: async () => await getGitHubStorage().userinfo(),
 });
 
 const userFileHistoryQuery = selector({
-  key: 'userFileHistoryQuery',
+  key: "userFileHistoryQuery",
   get: async ({ getCallback }) => {
     const data = await getGitHubStorage()
       .load({ count: 6 })
       .catch((e) => {
-        console.error('[app] userFileHistoryQuery', e);
+        console.error("[app] userFileHistoryQuery", e);
         return [];
       });
     const reload = getCallback(({ refresh }) => () => {
@@ -47,7 +47,7 @@ export const useUserinfo = () => {
   return { userinfo } as const;
 };
 
-export const createCommit = ({ title = 'メモ', text = '', tags = [] }: { title?: string; text?: string; tags?: string[] }) =>
+export const createCommit = ({ title = "メモ", text = "", tags = [] }: { title?: string; text?: string; tags?: string[] }) =>
   getGitHubStorage()
     .save({ title, text, tags })
     .then(({ lastCommitId }) => {

@@ -1,5 +1,5 @@
-import { Container } from '@chakra-ui/react';
-import { DebugTable } from './DebugTable';
+import { Container } from "@chakra-ui/react";
+import { DebugTable } from "./DebugTable";
 
 export const Developer = () => {
   return (

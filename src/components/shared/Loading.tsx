@@ -1,5 +1,5 @@
-import { Center, Flex, Text, VStack } from '@chakra-ui/react';
-import { Waveform } from '@uiball/loaders';
+import { Center, Flex, Text, VStack } from "@chakra-ui/react";
+import { Waveform } from "@uiball/loaders";
 
 export const LoadingView = () => {
   return (

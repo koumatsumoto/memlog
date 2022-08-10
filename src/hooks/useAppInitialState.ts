@@ -1,18 +1,18 @@
-import { useCallback, useMemo } from 'react';
-import { selector, useRecoilValue } from 'recoil';
-import { match, P } from 'ts-pattern';
-import { prettyJson } from '../utils';
-import { AppStorage } from './AppStorage';
-import { replaceLocationWithTopPage, requestAccessToken } from './useAuth';
-import { createCommit } from './useGitHub';
+import { useCallback, useMemo } from "react";
+import { selector, useRecoilValue } from "recoil";
+import { match, P } from "ts-pattern";
+import { prettyJson } from "../utils";
+import { AppStorage } from "./AppStorage";
+import { replaceLocationWithTopPage, requestAccessToken } from "./useAuth";
+import { createCommit } from "./useGitHub";
 
 const startUrlState = selector({
-  key: 'startUrlState',
+  key: "startUrlState",
   get: () => window.location.href,
 });
 
 const startUrlParamsState = selector({
-  key: 'startUrlParamsState',
+  key: "startUrlParamsState",
   get: () => getUrlQueryParams(window.location.search),
 });
 
@@ -29,9 +29,9 @@ export const useAppInitialState = () => {
   const startUrl = useRecoilValue(startUrlState);
   const urlParams = useRecoilValue(startUrlParamsState);
   const appOpenedBy = match(urlParams)
-    .with({ code: P.string }, () => 'OAuthRedirect' as const)
-    .with({ title: P.string, text: P.string }, () => 'SharedTargetAPI' as const)
-    .otherwise(() => 'User' as const);
+    .with({ code: P.string }, () => "OAuthRedirect" as const)
+    .with({ title: P.string, text: P.string }, () => "SharedTargetAPI" as const)
+    .otherwise(() => "User" as const);
 
   /**
    * 以前にOAuth認証が完了してアクセスキーを発行している場合はStorageにキャッシュを保存しているため、それを確認する
@@ -56,7 +56,7 @@ export const useAppInitialState = () => {
 
     // Shared Target API
     if (urlParams.text) {
-      createCommit({ title: urlParams.title, text: urlParams.text, tags: ['WebShare'] })
+      createCommit({ title: urlParams.title, text: urlParams.text, tags: ["WebShare"] })
         .then(() => {
           window.history.pushState({}, document.title, new URL(window.location.href).pathname); // drop search params
         })
@@ -74,7 +74,7 @@ export const useAppInitialState = () => {
   } as const;
 };
 
-type AppUrlQueryParams = Record<'code' | 'title' | 'text', string | undefined>;
+type AppUrlQueryParams = Record<"code" | "title" | "text", string | undefined>;
 const getUrlQueryParams = (search = window.location.search) => {
   return Object.fromEntries(new URLSearchParams(search).entries()) as AppUrlQueryParams;
 };

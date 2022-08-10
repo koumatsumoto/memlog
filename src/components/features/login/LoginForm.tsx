@@ -1,6 +1,6 @@
-import { Button, Container } from '@chakra-ui/react';
-import React from 'react';
-import { login } from '../../../hooks';
+import { Button, Container } from "@chakra-ui/react";
+import React from "react";
+import { login } from "../../../hooks";
 
 export const LoginForm = () => {
   return (

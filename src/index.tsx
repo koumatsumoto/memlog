@@ -1,12 +1,12 @@
-import React, { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { RecoilRoot } from 'recoil';
-import App from './components/App';
-import { DebugObserver } from './components/shared';
-import reportWebVitals from './reportWebVitals';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import React, { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { RecoilRoot } from "recoil";
+import App from "./components/App";
+import { DebugObserver } from "./components/shared";
+import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-const root = createRoot(document.getElementById('root')!);
+const root = createRoot(document.getElementById("root")!);
 root.render(
   <StrictMode>
     <RecoilRoot>

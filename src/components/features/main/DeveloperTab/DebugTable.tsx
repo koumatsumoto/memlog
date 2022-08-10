@@ -1,7 +1,7 @@
-import { Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr } from '@chakra-ui/react';
-import { format } from 'date-fns';
-import { ENV } from '../../../../environments';
-import { useAppInitialState } from '../../../../hooks';
+import { Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr } from "@chakra-ui/react";
+import { format } from "date-fns";
+import { ENV } from "../../../../environments";
+import { useAppInitialState } from "../../../../hooks";
 
 export const DebugTable = () => {
   const appInitialState = useAppInitialState();
@@ -31,12 +31,12 @@ export const DebugTable = () => {
           </Tr>
           <Tr>
             <Td>Access Token</Td>
-            <Td>{appInitialState.accessToken?.slice(0, 8).concat('***')}</Td>
+            <Td>{appInitialState.accessToken?.slice(0, 8).concat("***")}</Td>
           </Tr>
           <Tr>
             <Td>Build Version</Td>
             <Td>
-              #{ENV.version} - {format(new Date(ENV.buildTimestamp), 'yyyy-MM-dd HH:mm:ss')}
+              #{ENV.version} - {format(new Date(ENV.buildTimestamp), "yyyy-MM-dd HH:mm:ss")}
             </Td>
           </Tr>
         </Tbody>

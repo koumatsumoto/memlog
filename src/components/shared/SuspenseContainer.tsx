@@ -1,11 +1,11 @@
-import { Button, Code, Container, HStack, Text } from '@chakra-ui/react';
-import { PropsWithChildren, ReactNode, Suspense, useEffect } from 'react';
-import { ErrorBoundary } from 'react-error-boundary';
-import { identity, isError, isString } from 'remeda';
-import { match } from 'ts-pattern';
-import { logout, notifyError } from '../../hooks';
-import { prettyJson, printError } from '../../utils';
-import { LoadingIcon } from './Loading';
+import { Button, Code, Container, HStack, Text } from "@chakra-ui/react";
+import { PropsWithChildren, ReactNode, Suspense, useEffect } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { identity, isError, isString } from "remeda";
+import { match } from "ts-pattern";
+import { logout, notifyError } from "../../hooks";
+import { prettyJson, printError } from "../../utils";
+import { LoadingIcon } from "./Loading";
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
   const print = () => match(error).when(isString, identity).when(isError, printError).otherwise(prettyJson);
@@ -14,17 +14,17 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
   useEffect(() => {
     const errorType = match(error)
       // from GraphQL query client
-      .with({ response: { status: 401 } }, () => 'BadCredentialsError' as const)
+      .with({ response: { status: 401 } }, () => "BadCredentialsError" as const)
       .with(
-        { name: 'HttpError', response: { data: { message: 'Bad credentials' } } },
-        () => 'OAuthAccessTokenMaybeExpiredOrRevoked' as const,
+        { name: "HttpError", response: { data: { message: "Bad credentials" } } },
+        () => "OAuthAccessTokenMaybeExpiredOrRevoked" as const,
       )
-      .otherwise(() => 'UnknownApplicationError');
+      .otherwise(() => "UnknownApplicationError");
     notifyError(errorType);
 
     match(errorType)
-      .with('BadCredentialsError', logout)
-      .with('OAuthAccessTokenMaybeExpiredOrRevoked', logout)
+      .with("BadCredentialsError", logout)
+      .with("OAuthAccessTokenMaybeExpiredOrRevoked", logout)
       .otherwise(() => {});
   }, [error]);
 
@@ -39,13 +39,13 @@ const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args
 
       <Code
         sx={{
-          fontSize: '13px',
-          whiteSpace: 'pre',
-          maxWidth: '100%',
-          maxHeight: '100%',
-          overflow: 'scroll',
-          padding: '0.78em',
-          '&::-webkit-scrollbar': { display: 'none' },
+          fontSize: "13px",
+          whiteSpace: "pre",
+          maxWidth: "100%",
+          maxHeight: "100%",
+          overflow: "scroll",
+          padding: "0.78em",
+          "&::-webkit-scrollbar": { display: "none" },
         }}
       >
         {print()}

@@ -1,11 +1,11 @@
-import { Button, Textarea, VStack } from '@chakra-ui/react';
-import { Formik } from 'formik';
-import { createCommit } from '../../../../hooks';
+import { Button, Textarea, VStack } from "@chakra-ui/react";
+import { Formik } from "formik";
+import { createCommit } from "../../../../hooks";
 
 export const AddCommitForm = () => {
   return (
     <Formik
-      initialValues={{ text: '' }}
+      initialValues={{ text: "" }}
       onSubmit={async (values: { text: string }, { resetForm }) => {
         await createCommit(values).then(() => {
           resetForm();
@@ -15,7 +15,7 @@ export const AddCommitForm = () => {
     >
       {(props) => (
         <VStack spacing="16px">
-          <Textarea minW="56vw" h="24vh" fontSize="14px" borderColor="#fff9" {...props.getFieldProps('text')} />
+          <Textarea minW="56vw" h="24vh" fontSize="14px" borderColor="#fff9" {...props.getFieldProps("text")} />
           <Button
             colorScheme="green"
             size="sm"

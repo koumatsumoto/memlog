@@ -1,8 +1,8 @@
-import { TimeIcon } from '@chakra-ui/icons';
-import { Box, Button, HStack, List, ListIcon, ListItem, Text, VStack } from '@chakra-ui/react';
-import { format } from 'date-fns';
-import ja from 'date-fns/locale/ja';
-import { useCommitHistory } from '../../../../hooks';
+import { TimeIcon } from "@chakra-ui/icons";
+import { Box, Button, HStack, List, ListIcon, ListItem, Text, VStack } from "@chakra-ui/react";
+import { format } from "date-fns";
+import ja from "date-fns/locale/ja";
+import { useCommitHistory } from "../../../../hooks";
 
 export const CommitHistoryList = () => {
   const { history, reloadHistory } = useCommitHistory();
@@ -29,7 +29,7 @@ export const CommitHistoryList = () => {
                 <HStack>
                   <Text>{formatDateTime(data.time)}</Text>
                   <Text>{data.title}</Text>
-                  <Text>{data.tags.map((t) => `#${t}`).join(' ')}</Text>
+                  <Text>{data.tags.map((t) => `#${t}`).join(" ")}</Text>
                 </HStack>
                 <Text>{data.text}</Text>
               </VStack>
@@ -45,5 +45,5 @@ export const CommitHistoryList = () => {
 };
 
 const formatDateTime = (time: number) => {
-  return format(time, 'MM月dd日 HH時mm分', { locale: ja });
+  return format(time, "MM月dd日 HH時mm分", { locale: ja });
 };

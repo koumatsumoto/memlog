@@ -1,7 +1,7 @@
-import { Grid, GridItem, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { Developer } from './DeveloperTab/Developer';
-import { History } from './HistoryTab/History';
-import { Home } from './HomeTab/Home';
+import { Grid, GridItem, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { Developer } from "./DeveloperTab/Developer";
+import { History } from "./HistoryTab/History";
+import { Home } from "./HomeTab/Home";
 
 export const MainTabContents = () => {
   return (

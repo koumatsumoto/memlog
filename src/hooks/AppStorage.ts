@@ -1,6 +1,6 @@
 const keys = {
-  accessToken: 'AccessToken',
-  userinfo: 'UserInfo',
+  accessToken: "AccessToken",
+  userinfo: "UserInfo",
 } as const;
 
 type UserInfo = {
