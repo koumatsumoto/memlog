@@ -78,9 +78,8 @@ const test = async () => {
     .then((text) => {
       const el = new DOMParser().parseFromString(text, "text/html");
       const headEls = el.head.children;
-      Array.from(headEls).map((v) => {
+      Array.from(headEls).forEach((v) => {
         const prop = v.getAttribute("property");
-        if (!prop) return;
         console.log(prop, v.getAttribute("content"));
       });
     });
