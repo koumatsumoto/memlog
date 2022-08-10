@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { ENV } from "../../environments";
-import { AppStorage } from "./AppStorage";
+import { AppStorage } from "../shared";
 
 export const login = () => {
   window.location.href = `https://github.com/login/oauth/authorize?${new URLSearchParams({

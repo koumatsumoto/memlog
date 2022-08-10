@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { selector, useRecoilValue } from "recoil";
 import { match, P } from "ts-pattern";
 import { prettyJson } from "../../utils";
-import { AppStorage } from "./AppStorage";
+import { AppStorage } from "../shared";
 import { replaceLocationWithTopPage, requestAccessToken } from "./useAuth";
 import { createCommit } from "./useGitHub";
 

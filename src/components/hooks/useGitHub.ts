@@ -1,7 +1,7 @@
 import GitHubStorage from "@koumatsumoto/github-storage";
 import { selector, useRecoilValue } from "recoil";
-import { AppStorage } from "./AppStorage";
-import { notifyError, notifySuccess } from "./Toast";
+import { AppStorage } from "../shared";
+import { notifyError, notifySuccess } from "../shared/Toast";
 
 let githubStorage: GitHubStorage;
 const getGitHubStorage = () => {

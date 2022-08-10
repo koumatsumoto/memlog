@@ -1,7 +1,6 @@
 import { ChakraProvider, Container, Flex, Grid, GridItem } from "@chakra-ui/react";
 import type { ReactElement } from "react";
-import { ToastContainer } from "../hooks";
-import { LoadingView, SuspenseContainer } from "../shared";
+import { LoadingView, SuspenseContainer, ToastContainer } from "../shared";
 import { theme } from "../themes";
 import { AppHeader } from "./Header";
 

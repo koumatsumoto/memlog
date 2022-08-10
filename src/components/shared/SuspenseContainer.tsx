@@ -4,8 +4,9 @@ import { ErrorBoundary } from "react-error-boundary";
 import { identity, isError, isString } from "remeda";
 import { match } from "ts-pattern";
 import { prettyJson, printError } from "../../utils";
-import { logout, notifyError } from "../hooks";
+import { logout } from "../hooks";
 import { LoadingIcon } from "./Loading";
+import { notifyError } from "./Toast";
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {
   const print = () => match(error).when(isString, identity).when(isError, printError).otherwise(prettyJson);
