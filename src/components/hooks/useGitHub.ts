@@ -10,7 +10,7 @@ const getGitHubStorage = () => {
 
   githubStorage = new GitHubStorage({
     token: AppStorage.loadAccessToken() ?? "",
-    repository: "memlog-storage",
+    repository: "koumatsumoto/memlog-storage",
   });
 
   // for debug
