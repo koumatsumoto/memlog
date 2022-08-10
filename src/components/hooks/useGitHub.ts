@@ -27,7 +27,7 @@ const userFileHistoryQuery = selector({
   key: "userFileHistoryQuery",
   get: async ({ getCallback }) => {
     const data = await getGitHubStorage()
-      .load({ count: 6 })
+      .findIndices({ count: 10 })
       .catch((e) => {
         console.error("[app] userFileHistoryQuery", e);
         return [];

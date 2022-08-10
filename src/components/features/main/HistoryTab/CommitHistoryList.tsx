@@ -25,14 +25,11 @@ export const CommitHistoryList = () => {
               <Box>
                 <ListIcon as={TimeIcon} color="green.500" />
               </Box>
-              <VStack align="start" spacing={0}>
-                <HStack>
-                  <Text>{formatDateTime(data.time)}</Text>
-                  <Text>{data.title}</Text>
-                  <Text>{data.tags.map((t) => `#${t}`).join(" ")}</Text>
-                </HStack>
-                <Text>{data.text}</Text>
-              </VStack>
+              <HStack>
+                <Text>{formatDateTime(data.time)}</Text>
+                <Text>{data.title}</Text>
+                <Text>{data.tags.map((t) => `#${t}`).join(" ")}</Text>
+              </HStack>
             </HStack>
           </ListItem>
         ))}
