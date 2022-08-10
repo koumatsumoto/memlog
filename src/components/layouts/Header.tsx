@@ -2,7 +2,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { Heading, HStack, IconButton } from "@chakra-ui/react";
 import React, { FunctionComponent } from "react";
 import { ENV } from "../../environments";
-import { logout, useAuth } from "../../hooks";
+import { logout, useAuth } from "../hooks";
 
 export const AppHeader: FunctionComponent = () => {
   const { canLogout } = useAuth();

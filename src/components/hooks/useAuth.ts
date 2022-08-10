@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ENV } from "../environments";
+import { ENV } from "../../environments";
 import { AppStorage } from "./AppStorage";
 
 export const login = () => {

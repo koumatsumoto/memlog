@@ -3,8 +3,8 @@ import { PropsWithChildren, ReactNode, Suspense, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { identity, isError, isString } from "remeda";
 import { match } from "ts-pattern";
-import { logout, notifyError } from "../../hooks";
 import { prettyJson, printError } from "../../utils";
+import { logout, notifyError } from "../hooks";
 import { LoadingIcon } from "./Loading";
 
 const ErrorFallback = ({ error }: { error: unknown; resetErrorBoundary: (...args: Array<unknown>) => void }) => {

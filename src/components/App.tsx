@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { match } from "ts-pattern";
-import { useAppInitialState } from "../hooks";
 import { LoginForm } from "./features/login";
 import { MainTabContents } from "./features/main";
+import { useAppInitialState } from "./hooks";
 import { AppLayout, LoadingLayout } from "./layouts";
 
 const App = () => {

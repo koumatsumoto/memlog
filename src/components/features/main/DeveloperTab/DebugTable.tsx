@@ -1,7 +1,7 @@
 import { Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { ENV } from "../../../../environments";
-import { useAppInitialState } from "../../../../hooks";
+import { useAppInitialState } from "../../../hooks";
 
 export const DebugTable = () => {
   const appInitialState = useAppInitialState();

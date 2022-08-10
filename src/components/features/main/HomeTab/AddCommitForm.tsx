@@ -1,6 +1,6 @@
 import { Button, Textarea, VStack } from "@chakra-ui/react";
 import { Formik } from "formik";
-import { createCommit } from "../../../../hooks";
+import { createCommit } from "../../../hooks";
 
 export const AddCommitForm = () => {
   return (

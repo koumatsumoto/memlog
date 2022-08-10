@@ -4,7 +4,7 @@ import { RecoilRoot } from "recoil";
 import App from "./components/App";
 import { DebugObserver } from "./components/shared";
 import reportWebVitals from "./reportWebVitals";
-import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import { registerServiceWorker } from "./workers";
 
 const root = createRoot(document.getElementById("root")!);
 root.render(
@@ -16,7 +16,7 @@ root.render(
   </StrictMode>,
 );
 
-serviceWorkerRegistration.register();
+registerServiceWorker();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

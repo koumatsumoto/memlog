@@ -1,5 +1,5 @@
 import { Avatar, HStack, Text } from "@chakra-ui/react";
-import { useUserinfo } from "../../../../hooks";
+import { useUserinfo } from "../../../hooks";
 
 export const UserInfo = () => {
   const { userinfo } = useUserinfo();

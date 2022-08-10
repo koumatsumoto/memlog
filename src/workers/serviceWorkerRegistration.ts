@@ -1,4 +1,4 @@
-import { ENV } from "./environments";
+import { ENV } from "../environments";
 
 type Config = {
   onSuccess?: (registration: ServiceWorkerRegistration) => void;
@@ -27,7 +27,7 @@ const subscribeLogsFromServiceWorker = () => {
   });
 };
 
-export function register(config?: Config) {
+export function registerServiceWorker(config?: Config) {
   if (ENV.isProduction) {
     const publicUrl = new URL(ENV.publicURL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {

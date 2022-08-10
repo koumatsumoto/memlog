@@ -2,7 +2,7 @@ import { TimeIcon } from "@chakra-ui/icons";
 import { Box, Button, HStack, List, ListIcon, ListItem, Text, VStack } from "@chakra-ui/react";
 import { format } from "date-fns";
 import ja from "date-fns/locale/ja";
-import { useCommitHistory } from "../../../../hooks";
+import { useCommitHistory } from "../../../hooks";
 
 export const CommitHistoryList = () => {
   const { history, reloadHistory } = useCommitHistory();
