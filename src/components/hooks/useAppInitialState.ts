@@ -38,7 +38,7 @@ export const useAppInitialState = () => {
    *   - TODO: validation
    */
   const accessToken = useMemo(() => AppStorage.loadAccessToken(), []);
-  const hasAccessToken = Boolean(accessToken);
+  const isLoggedIn = Boolean(accessToken);
 
   const onceInitializeApp = useCallback(() => {
     if (appInitializeEffectCompleted) {
@@ -69,7 +69,7 @@ export const useAppInitialState = () => {
     urlParams,
     appOpenedBy,
     accessToken,
-    hasAccessToken,
+    isLoggedIn,
     onceInitializeApp,
   } as const;
 };
