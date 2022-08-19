@@ -1,6 +1,8 @@
 import { extendTheme } from "@chakra-ui/react";
 
 export const theme = extendTheme({
+  initialColorMode: "dark",
+  useSystemColorMode: false,
   colors: {
     brand: {
       100: "#f7fafc",
@@ -8,6 +10,11 @@ export const theme = extendTheme({
       900: "#1a202c",
     },
     "bg-dark": "#282c34",
+  },
+  shadows: {
+    light: {
+      sm: "0 2px 8px -1px rgb(255 255 255 / 8%), 0 2px 6px -1px rgb(255 255 255 / 6%)",
+    },
   },
   sizes: {
     full: "100%",

@@ -1,4 +1,4 @@
-import { Button, Textarea, VStack } from "@chakra-ui/react";
+import { Box, Button, Textarea, VStack } from "@chakra-ui/react";
 import { Formik } from "formik";
 import { createCommit } from "../../../hooks";
 
@@ -15,7 +15,9 @@ export const AddCommitForm = () => {
     >
       {(props) => (
         <VStack spacing="16px">
-          <Textarea minW="56vw" h="24vh" fontSize="14px" borderColor="#fff9" {...props.getFieldProps("text")} />
+          <Box boxShadow="light.sm" border="2px solid #9999" borderRadius="6px">
+            <Textarea minW="56vw" minH="24vh" fontSize="14px" border="0" p="0" {...props.getFieldProps("text")} />
+          </Box>
           <Button
             colorScheme="green"
             size="sm"
