@@ -5,7 +5,7 @@ import { UserInfo } from "./UserInfo";
 export const Home = () => {
   return (
     <Container centerContent>
-      <VStack spacing={6}>
+      <VStack spacing={6} boxSize="full">
         <UserInfo />
         <AddCommitForm />
       </VStack>

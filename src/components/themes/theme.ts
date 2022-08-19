@@ -32,6 +32,10 @@ export const theme = extendTheme({
   },
   components: {
     Container: {
+      baseStyle: {
+        width: "min(100%, 100vw)",
+        height: "min(100%, 100vh)",
+      },
       variants: {
         outermost: {
           width: "min(100%, 100vw)",
