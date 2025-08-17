@@ -12,15 +12,8 @@
 
 - `npm run dev` - 開発サーバー起動
 - `npm run build` - プロダクションビルド（git コミットハッシュとタイムスタンプ付き）
-- `npm run test` - Jest でテスト実行
 - `npm run lint` - Prettier と ESLint でコード整形（コミット前に必須）
 - `npm run format` - コード整形と ESLint 自動修正
-
-### テスト
-
-- テストファイル: `**/*.test.ts`
-- Jest + @sucrase/jest-plugin で TypeScript 変換
-- 単一テスト実行: `npm test -- --testNamePattern="テスト名"`
 
 ## アーキテクチャ
 
