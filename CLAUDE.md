@@ -4,66 +4,101 @@
 
 ## プロジェクト概要
 
-個人用のメモ管理アプリ。React SPA。
+個人用のメモ管理アプリ。React SPA として構築され、GitHub API と OAuth 認証を通じて GitHub をストレージバックエンドとして使用。Web Share Target API による素早いメモ保存をサポート。
 
-## 1. 対話方針
+## 開発コマンド
 
-会話は日本語で簡潔に要点を伝える
+### 必須コマンド
 
-## 2. 作業方針
+- `npm run dev` - 開発サーバー起動
+- `npm run build` - プロダクションビルド（git コミットハッシュとタイムスタンプ付き）
+- `npm run test` - Jest でテスト実行
+- `npm run lint` - Prettier と ESLint でコード整形（コミット前に必須）
+- `npm run format` - コード整形と ESLint 自動修正
 
-作業は「要求分析」「作業計画」「開発」「結果確認」の順番で行う。
-各タスクの完了時に結果をユーザに報告して、次の作業に進む。
+### テスト
 
-### 2.1 要求分析
+- テストファイル: `**/*.test.ts`
+- Jest + @sucrase/jest-plugin で TypeScript 変換
+- 単一テスト実行: `npm test -- --testNamePattern="テスト名"`
 
-- ユーザの指示を整理して不明点を質問する
-- 最終的に達成したい内容を明確化してユーザのレビューを受ける
-- 質問とフィードバックを通じて要件を具体化・詳細化する
+## アーキテクチャ
 
-### 2.2 作業計画
+### 技術スタック
 
-- 最終的に実現すべき内容に対して、作業計画を作成するために必要な背景情報を収集する
-- 現状の実装と資料を調査して、不足情報をユーザに質問する
-- 収集した全ての情報を分析して、作業計画を作成する
+- **フロントエンド**: React 18 + TypeScript, Create React App
+- **UI ライブラリ**: Chakra UI + Emotion
+- **状態管理**: Recoil
+- **ストレージ**: @koumatsumoto/github-storage 経由で GitHub リポジトリ
+- **認証**: GitHub OAuth
+- **フォーム**: Formik + Yup
+- **パターンマッチング**: ts-pattern
 
-### 2.3 開発
+### 主要コンポーネント構造
 
-- 作業計画に従って開発作業を実施する
-- 10 回以上試行して解決できない問題が発生した場合はユーザに報告して対応方針を相談する
+- `src/components/App.tsx` - 認証ルーティングロジックを持つメインアプリ
+- `src/components/features/` - 機能別コンポーネント（ログイン、メインタブ）
+- `src/components/hooks/` - カスタムフック（useAuth、useGitHub 等）
+- `src/components/shared/` - 共有ユーティリティ（AppStorage、Toast、Loading）
+- `src/components/layouts/` - レイアウトコンポーネント（AppLayout、Header）
 
-### 2.4 結果確認
+### GitHub Storage 連携
 
-- 作業が完了したタイミングでコードフォーマットやテストを実行して結果確認する
-- 結果確認が完了したら全ての作業の内容を整理してユーザに報告する
-- 追加作業が無ければ `git commit` して作業を完了する
+- `@koumatsumoto/github-storage`ライブラリで GitHub リポジトリにメモをファイル保存
+- リポジトリ: `koumatsumoto/memlog-storage`
+- GitHub OAuth トークンを localStorage に保存して認証
+- コミット作成、ファイル履歴、ファイル詳細取得をサポート
 
-## 3. 開発方針
+## コード品質
 
-### 3.1 開発環境
+### リント・フォーマット
 
-- TypeScript/Node.js
-- このプロジェクトは type=module で ESM を利用している
-- Node.js v24 以上なので TypeScript (ts) ファイルを実行する場合は、 `node src/main.ts` のように直接実行する
+- Prettier 設定: 行幅 140 文字、末尾カンマあり
+- ESLint: react-app、import/typescript、prettier を継承
+- ESLint で import 順序をアルファベット順に強制
+- Husky プリコミットフックでステージされたファイルを整形
+- コミット前に`npm run lint`実行必須（git diff 清潔性を保証）
 
-### 3.2 実装ルール
+### TypeScript 設定
 
-- 最小限の実装を行う
-- 不必要な機能や過剰な抽象化を避ける
-- 要求に対して最もシンプルな解決策を選択する
+- ターゲット: esnext、strict モード有効
+- JSX: react-jsx（React 17+変換）
+- モジュール: esnext、Node.js 解決
+- 全ソースファイルは`src/`ディレクトリ
 
-## 4. ドキュメント管理方針
+## 開発メモ
+
+### 認証フロー
+
+1. アプリが localStorage の GitHub アクセストークンをチェック
+2. トークンがなければ GitHub OAuth のログインフォーム表示
+3. OAuth リダイレクトは`appOpenedBy: "OAuthRedirect"`状態で処理
+4. トークンは AppStorage（localStorage ラッパー）に保存
+
+### 状態管理パターン
+
+- GitHub API 呼び出しに Recoil セレクター使用
+- `useAppInitialState`フックでアプリ初期化管理
+- ts-pattern で条件分岐レンダリング
+
+### 重要ファイル
+
+- `src/components/shared/AppStorage.ts` - localStorage 抽象化
+- `src/components/hooks/useGitHub.ts` - GitHub API 連携
+- `src/environments.ts` - 環境設定
+
+## ドキュメント管理方針
 
 - `docs/` フォルダでプロジェクトドキュメントを管理
 - 新規ドキュメント作成時は `docs/index.md` にリンクを追加
 - 開発により実装を変更したときはドキュメントを最新化
 
-### 4.1 更新ルール
+### 更新ルール
 
 - 実装変更時はドキュメント内容を見直し更新する
 - 実装とドキュメントの整合性を保つ
 
-## 5. Git 操作ルール
+## Git 操作ルール
 
 ### Commit 方法
 
